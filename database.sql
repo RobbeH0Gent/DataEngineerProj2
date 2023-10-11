@@ -79,35 +79,44 @@ CREATE TABLE Campagne (
 -- Table: cdi pageviews
 CREATE TABLE CDI_PageViews (
     PageView_ID INT PRIMARY KEY,
-    PageView_Anonymous BOOLEAN,
-    PageView_Browser VARCHAR(50),
-    PageView_Campaign VARCHAR(255),
-    PageView_Contact VARCHAR(255),
-    PageView_Duration VARCHAR(255),
-    PageView_Operating_System VARCHAR(50),
-    PageView_Referrer_Type VARCHAR(255),
+    Anonymous BOOLEAN,
+    Browser VARCHAR(50),
+    Campaign VARCHAR(255),
+    Contact VARCHAR(255),
+    Duration VARCHAR(255),
+    Operating_System VARCHAR(50),
+    Referrer_Type VARCHAR(255),
     -- Not sure of this one
     PageView_Time Time,
     --
-    PageView_Title VARCHAR(255),
-    PageView_Type VARCHAR(255),
-    PageView_Url VARCHAR(255),
-    PageView_Viewed_On DATE,
-    PageView_Visit DATE,
-    PageView_Visitor_key VARCHAR(255),
-    PageView_Web_Content VARCHAR(255),
-    PageView_Made_On DATE,
-    PageView_Edited_By VARCHAR(255),
-    PageView_Edited_On DATE,
+    Title VARCHAR(255),
+    Type VARCHAR(255),
+    Url VARCHAR(255),
+    Viewed_On DATE,
+    Visit DATE,
+    Visitor_key VARCHAR(255),
+    Web_Content VARCHAR(255),
+    Made_On DATE,
+    Edited_By VARCHAR(255),
+    Edited_On DATE,
     Status VARCHAR(255),
-    PageView_Status_Reason VARCHAR(255)
+    Status_Reason VARCHAR(255)
 );
 
 -- Table: cdi web content
 CREATE TABLE CDI_WebContent (
     WebContent_ID INT PRIMARY KEY,
     Web_Content VARCHAR(255),
-    -- Add other columns as needed
+    Campaign_ID VARCHAR(255),
+    Campaign_Name VARCHAR(255),
+    Naam VARCHAR(255),
+    Made_By_Name VARCHAR(255), 
+    Created_On DATE,
+    Edited_By_Name VARCHAR(255),
+    Modified_On DATE,
+    Owner_ID INT,
+    Owner_Name VARCHAR(255),
+    Owning_Business_Unit BOOLEAN
 );
 
 -- Table: cdi visits
