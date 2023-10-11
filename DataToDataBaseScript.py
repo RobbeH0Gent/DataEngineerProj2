@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import mysql.connector
 
+#random code om te testen of ik kan pushen
 db_params = {
     'host': '',
     'database': '',
