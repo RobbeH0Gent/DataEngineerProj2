@@ -23,7 +23,7 @@ CREATE TABLE Account (
 
 -- Account ActiviteitsCode Table
 CREATE TABLE Account_ActiviteitsCode (
-    Account_ActiviteitsCode_Account INT,
+    Account_ActiviteitsCode_Account INT PRIMARY KEY,
     Activiteitscode INT,
     inf_account_inf_activiteitscodeId INT,
     PRIMARY KEY (Account_ActiviteitsCode_Account, Activiteitscode),
@@ -58,7 +58,7 @@ CREATE TABLE Activiteitscode (
 
 -- Table: Afpsraak Alle
 CREATE TABLE Afpsraak_Alle (
-    Afspraak_ID INT PRIMARY KEY,
+    Afspraak_ID INT PRIMARY KEY
 );
 
 -- Table: Campagne
@@ -73,14 +73,34 @@ CREATE TABLE Campagne (
     Status VARCHAR(255),
     Type_campagne VARCHAR(255),
     URL_voka_be VARCHAR(255),
-    Soort_Campagne VARCHAR(255),
+    Soort_Campagne VARCHAR(255)
 );
 
 -- Table: cdi pageviews
 CREATE TABLE CDI_PageViews (
     PageView_ID INT PRIMARY KEY,
-    Page_Title VARCHAR(255),
-    -- Add other columns as needed
+    PageView_Anonymous BOOLEAN,
+    PageView_Browser VARCHAR(50),
+    PageView_Campaign VARCHAR(255),
+    PageView_Contact VARCHAR(255),
+    PageView_Duration VARCHAR(255),
+    PageView_Operating_System VARCHAR(50),
+    PageView_Referrer_Type VARCHAR(255),
+    -- Not sure of this one
+    PageView_Time Time,
+    --
+    PageView_Title VARCHAR(255),
+    PageView_Type VARCHAR(255),
+    PageView_Url VARCHAR(255),
+    PageView_Viewed_On DATE,
+    PageView_Visit DATE,
+    PageView_Visitor_key VARCHAR(255),
+    PageView_Web_Content VARCHAR(255),
+    PageView_Made_On DATE,
+    PageView_Edited_By VARCHAR(255),
+    PageView_Edited_On DATE,
+    Status VARCHAR(255),
+    PageView_Status_Reason VARCHAR(255)
 );
 
 -- Table: cdi web content
