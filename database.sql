@@ -129,19 +129,22 @@ CREATE TABLE CDI_Visits (
 -- Table: cdi sent email clicks
 CREATE TABLE CDI_SentEmailClicks (
     SentEmailClicks_ID INT PRIMARY KEY,
+    SentEmailClicks_Contact VARCHAR(255),
     -- Add other columns as needed
 );
 
 -- Table: CDI mailing
 CREATE TABLE CDI_Mailing (
     Mailing_ID INT PRIMARY KEY,
-    -- Add other columns as needed
+    Mailing_Name VARCHAR(255),
+    Mailing_Sent_On DATE,
+    Mailing_Subject VARCHAR(255)
 );
 
 -- Table: Contact functie
 CREATE TABLE ContactFunctie (
     ContactFunctie_ID INT PRIMARY KEY,
-    -- Add other columns as needed
+    Contactpersoon VARCHAR(255)
 );
 
 -- Table: Contact
