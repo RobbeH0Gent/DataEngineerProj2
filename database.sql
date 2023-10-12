@@ -2,14 +2,14 @@ CREATE DATABASE DEP2;
 
 -- Account Table
 CREATE TABLE Account (
-    AccountID INT PRIMARY KEY,
+    AccountID VARCHAR(255) PRIMARY KEY,
     Adres_Geografische_regio VARCHAR(255),
     Adres_Geografische_subregio VARCHAR(255),
     Plaats VARCHAR(255),
     Postcode VARCHAR(10),
     Provincie VARCHAR(255),
     Industriezone_Naam_ VARCHAR(255),
-    Is_Voka_entiteit BOOLEAN,
+    Is_Voka_entiteit INTEGER, -- BOOLEAN
     Ondernemingsaard VARCHAR(255),
     Ondernemingstype VARCHAR(255),
     Oprichtingsdatum DATE,
@@ -23,7 +23,7 @@ CREATE TABLE Account (
 
 -- Account ActiviteitsCode Table
 CREATE TABLE Account_ActiviteitsCode (
-    Account_ActiviteitsCode_Account INT PRIMARY KEY,
+    Account_ActiviteitsCode VARCHAR(255) PRIMARY KEY,
     Activiteitscode INT,
     inf_account_inf_activiteitscodeId INT,
     PRIMARY KEY (Account_ActiviteitsCode_Account, Activiteitscode),
@@ -33,17 +33,17 @@ CREATE TABLE Account_ActiviteitsCode (
 
 -- Account Financiele data Table
 CREATE TABLE Account_FinancieleData (
-    OndernemingID INT PRIMARY KEY,
+    Account_ID VARCHAR(255) PRIMARY KEY,
     Boekjaar INT,
     Aantal_maanden INT,
     Toegevoegde_waarde DECIMAL(10, 2),
     FTE INT,
     Gewijzigd_op DATE,
-    FOREIGN KEY (OndernemingID) REFERENCES Account(AccountID)
+    FOREIGN KEY (Account_ID) REFERENCES Account(AccountID)
 );
 
 CREATE TABLE ActiviteitVereistContact (
-    ActivityId INT PRIMARY KEY,
+    ActivityId VARCHAR(255) PRIMARY KEY,
     ReqAttendee INT,
     FOREIGN KEY (ActivityId) REFERENCES Activiteitscode(Activiteitscode),
     FOREIGN KEY (ReqAttendee) REFERENCES Contact(ContactpersoonID)
@@ -52,18 +52,18 @@ CREATE TABLE ActiviteitVereistContact (
 -- Activiteitscode Table
 CREATE TABLE Activiteitscode (
     Naam VARCHAR(255),
-    Activiteitscode INT PRIMARY KEY,
+    Activiteitscode VARCHAR(255) PRIMARY KEY,
     Status VARCHAR(255)
 );
 
 -- Table: Afpsraak Alle
 CREATE TABLE Afpsraak_Alle (
-    Afspraak_ID INT PRIMARY KEY
+    Afspraak_ID VARCHAR(255) PRIMARY KEY
 );
 
 -- Table: Campagne
 CREATE TABLE Campagne (
-    Campagne_ID INT PRIMARY KEY,
+    Campagne_ID VARCHAR(255) PRIMARY KEY,
     Campagne_Nr INT,
     Einddatum DATE,
     Naam VARCHAR(255),
@@ -78,7 +78,7 @@ CREATE TABLE Campagne (
 
 -- Table: cdi pageviews
 CREATE TABLE CDI_PageViews (
-    PageView_ID INT PRIMARY KEY,
+    PageView_ID VARCHAR(255) PRIMARY KEY,
     Anonymous BOOLEAN,
     Browser VARCHAR(50),
     Campaign VARCHAR(255),
@@ -87,7 +87,7 @@ CREATE TABLE CDI_PageViews (
     Operating_System VARCHAR(50),
     Referrer_Type VARCHAR(255),
     -- Not sure of this one
-    PageView_Time Time,
+    PageView_Time DateTime,
     --
     Title VARCHAR(255),
     Type VARCHAR(255),
@@ -105,7 +105,7 @@ CREATE TABLE CDI_PageViews (
 
 -- Table: cdi web content
 CREATE TABLE CDI_WebContent (
-    WebContent_ID INT PRIMARY KEY,
+    WebContent_ID VARCHAR(255) PRIMARY KEY,
     Web_Content VARCHAR(255),
     Campaign_ID VARCHAR(255),
     Campaign_Name VARCHAR(255),
@@ -114,28 +114,28 @@ CREATE TABLE CDI_WebContent (
     Created_On DATE,
     Edited_By_Name VARCHAR(255),
     Modified_On DATE,
-    Owner_ID INT,
+    Owner_ID VARCHAR(255),
     Owner_Name VARCHAR(255),
     Owning_Business_Unit BOOLEAN
 );
 
 -- Table: cdi visits
 CREATE TABLE CDI_Visits (
-    Visit_ID INT PRIMARY KEY,
+    Visit_ID VARCHAR(255) PRIMARY KEY,
     IP_Address VARCHAR(255),
     -- Add other columns as needed
 );
 
 -- Table: cdi sent email clicks
 CREATE TABLE CDI_SentEmailClicks (
-    SentEmailClicks_ID INT PRIMARY KEY,
+    SentEmailClicks_ID VARCHAR(255) PRIMARY KEY,
     SentEmailClicks_Contact VARCHAR(255),
     -- Add other columns as needed
 );
 
 -- Table: CDI mailing
 CREATE TABLE CDI_Mailing (
-    Mailing_ID INT PRIMARY KEY,
+    Mailing_ID VARCHAR(255) PRIMARY KEY,
     Mailing_Name VARCHAR(255),
     Mailing_Sent_On DATE,
     Mailing_Subject VARCHAR(255)
@@ -143,61 +143,99 @@ CREATE TABLE CDI_Mailing (
 
 -- Table: Contact functie
 CREATE TABLE ContactFunctie (
-    ContactFunctie_ID INT PRIMARY KEY,
+    ContactFunctie_ID VARCHAR(255) PRIMARY KEY,
     Contactpersoon VARCHAR(255)
 );
 
 -- Table: Contact
 CREATE TABLE Contact (
-    Contact_ID INT PRIMARY KEY,
-    -- Add other columns as needed
+    Contact_persoon VARCHAR(255),
+    Contact_ID VARCHAR(255) PRIMARY KEY,
+    Account_ID VARCHAR(255), -- FK
+    Functie_title VARCHAR(255),
+    Status VARCHAR(255),
+    Voka_medewerker INTEGER -- BOOLEAN
 );
 
--- Table: Gebruikers
-CREATE TABLE Gebruikers (
-    Gebruikers_ID INT PRIMARY KEY,
-    -- Add other columns as needed
+-- Table: Gebruiker
+CREATE TABLE Gebruiker (
+    Gebruikers_ID VARCHAR(255) PRIMARY KEY,
+    Business_unit_naam VARCHAR(255), -- staat niet in ERD maar hebben wel data
 );
 
+-- Not sure about Aanvraag
 -- Table: Info en klachten
 CREATE TABLE Info_en_Klachten (
-    Info_en_Klachten_ID INT PRIMARY KEY,
-    -- Add other columns as needed
+    Aanvraag VARCHAR(255) PRIMARY KEY
+    Account_ID VARCHAR(255),
+    Datum DateTime,
+    Datum_afsluiting DateTime,
+    Status VARCHAR(255), -- Gesloten/actief
+    Eigenaar VARCHAR(255),
+    FOREIGN KEY (Eigenaar) REFERENCES Gebruiker(Gebruiker_ID),
+    FOREIGN KEY (Account_ID) REFERENCES Account(Account_ID)    
 );
 
 -- Table: Inschrijving
 CREATE TABLE Inschrijving (
-    Inschrijving_ID INT PRIMARY KEY,
-    -- Add other columns as needed
+    Inschrijving_ID VARCHAR(255) PRIMARY KEY,
+    Facturatie_bedrag INTEGER,
+    Datum DateTime,
+    Contactfiche VARCHAR(255),
+    Bron VARCHAR(255),
+    Status VARCHAR(255) -- Aanwezig/Afwezig
 );
 
 -- Table: Lidmaatschap
 CREATE TABLE Lidmaatschap (
-    Lidmaatschap_ID INT PRIMARY KEY,
-    -- Add other columns as needed
+    Lidmaatschap_ID VARCHAR(255) PRIMARY KEY,
+    OndernemingID VARCHAR(255),
+    Opzeg DateTime,
+    Reden_Aangroei VARCHAR(255),
+    Reden_Verloop VARCHAR(255),
+    Start_Datum Date,
+    FOREIGN KEY (OndernemingID) REFERENCES Account(AccountID)
 );
 
 -- Table: Persoon
 CREATE TABLE Persoon (
-    Persoon_ID INT PRIMARY KEY,
-    -- Add other columns as needed
+    Persoon_ID VARCHAR(255) PRIMARY KEY,
+    Persoonnr INTEGER,
+    Status VARCHAR(255), -- Actief/Inactief
+    Email VARCHAR(255),
+    Regio VARCHAR(255), 
+    Thema VARCHAR(255),
+    Type VARCHAR(255), -- VEEL OPTIES -> best anders aanpakken?
+    Marketing_Communicatie VARCHAR(255) -- Strikt/Flexibel
 );
 
 -- Table: Sessie inschrijving
 CREATE TABLE SessieInschrijving (
-    SessieInschrijving_ID INT PRIMARY KEY,
-    -- Add other columns as needed
+    SessieInschrijving_ID VARCHAR(255) PRIMARY KEY,
+    Sessie_ID VARCHAR(255),
+    Inschrijving_ID VARCHAR(255),
+    FOREIGN KEY (Sessie_ID) REFERENCES Sessie(Sessie_ID),
+    FOREIGN KEY (Inschrijving_ID) REFERENCES Inschrijving(Inschrijving_ID)
+    
 );
 
 -- Table: Sessie
 CREATE TABLE Sessie (
-    Sessie_ID INT PRIMARY KEY,
-    -- Add other columns as needed
+    Sessie_ID VARCHAR(255) PRIMARY KEY,
+    Activiteitstype VARCHAR(255),
+    Campagne_ID VARCHAR(255), 
+    Einddatum DateTime,
+    Product VARCHAR(255),
+    Sessie_nr VARCHAR(255),
+    Startdatum DateTime,
+    Thema VARCHAR(255), 
+    FOREIGN KEY (Campagne_ID) REFERENCES Campagne(Campagne_ID),
+
 );
 
 -- Table: Teams
 CREATE TABLE Teams (
-    Teams_ID INT PRIMARY KEY,
-    -- Add other columns as needed
+    Teams_ID VARCHAR(5) PRIMARY KEY,
+    Activiteit_naam VARCHAR(255)
 );
 
