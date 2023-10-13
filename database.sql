@@ -2,7 +2,7 @@ CREATE DATABASE DEP2;
 
 -- Account Table
 CREATE TABLE Account (
-    AccountID VARCHAR(255) PRIMARY KEY,
+    Account_ID VARCHAR(255) PRIMARY KEY,
     Adres_Geografische_regio VARCHAR(255),
     Adres_Geografische_subregio VARCHAR(255),
     Plaats VARCHAR(255),
@@ -24,35 +24,34 @@ CREATE TABLE Account (
 -- Account ActiviteitsCode Table
 CREATE TABLE Account_ActiviteitsCode (
     Account_ActiviteitsCode VARCHAR(255) PRIMARY KEY,
-    Activiteitscode INT,
+    Activiteitscode_ID VARCHAR(255),
     inf_account_inf_activiteitscodeId INT,
-    PRIMARY KEY (Account_ActiviteitsCode_Account, Activiteitscode),
-    FOREIGN KEY (Account_ActiviteitsCode_Account) REFERENCES Account(AccountID),
-    FOREIGN KEY (Activiteitscode) REFERENCES Activiteitscode(Activiteitscode)
+    FOREIGN KEY (Account_ActiviteitsCode_Account) REFERENCES Account(Account_ID),
+    FOREIGN KEY (Activiteitscode_ID) REFERENCES Activiteitscode(Activiteitscode_ID)
 );
 
 -- Account Financiele data Table
 CREATE TABLE Account_FinancieleData (
-    Account_ID VARCHAR(255) PRIMARY KEY,
+    Account_ID VARCHAR(255) PRIMARY KEY,5
     Boekjaar INT,
     Aantal_maanden INT,
     Toegevoegde_waarde DECIMAL(10, 2),
     FTE INT,
     Gewijzigd_op DATE,
-    FOREIGN KEY (Account_ID) REFERENCES Account(AccountID)
+    FOREIGN KEY (Account_ID) REFERENCES Account(Account_ID)
 );
 
 CREATE TABLE ActiviteitVereistContact (
-    ActivityId VARCHAR(255) PRIMARY KEY,
-    ReqAttendee INT,
-    FOREIGN KEY (ActivityId) REFERENCES Activiteitscode(Activiteitscode),
-    FOREIGN KEY (ReqAttendee) REFERENCES Contact(ContactpersoonID)
+    Activity_ID VARCHAR(255) PRIMARY KEY,
+    ReqAttendee VARCHAR(255),
+    FOREIGN KEY (Activity_ID) REFERENCES Activiteitscode(Activiteitscode_ID),
+    FOREIGN KEY (ReqAttendee) REFERENCES Contactfiche(Persoon_ID)
 );
 
 -- Activiteitscode Table
 CREATE TABLE Activiteitscode (
     Naam VARCHAR(255),
-    Activiteitscode VARCHAR(255) PRIMARY KEY,
+    Activiteitscode_ID VARCHAR(255) PRIMARY KEY,
     Status VARCHAR(255)
 );
 
@@ -60,6 +59,35 @@ CREATE TABLE Activiteitscode (
 CREATE TABLE Afpsraak_Alle (
     Afspraak_ID VARCHAR(255) PRIMARY KEY
 );
+
+CREATE TABLE Afspraak_Account_Gelinkt (
+    Afpraak_ID VARCHAR(255),
+    Account_ID VARCHAR(255),
+    FOREIGN KEY (Afpraak_ID) REFERENCES Afpsraak_Alle(Afspraak_ID),
+    FOREIGN KEY (Account_ID) REFERENCES Account(Account_ID)
+);
+
+CREATE TABLE Afspraak_Betreft_Contactfiche (
+    Afpraak_ID VARCHAR(255),
+    Contactfiche_ID VARCHAR(255),
+    FOREIGN KEY (Afpraak_ID) REFERENCES Afpsraak_Alle(Afspraak_ID),
+    FOREIGN KEY (Contactfiche_ID) REFERENCES Contactfiche(Contactfiche_ID)
+);
+
+CREATE TABLE Afspraak_Betreft_Account (
+    Afpraak_ID VARCHAR(255),
+    Account_ID VARCHAR(255),
+    FOREIGN KEY (Afpraak_ID) REFERENCES Afpsraak_Alle(Afspraak_ID),
+    FOREIGN KEY (Account_ID) REFERENCES Account(Account_ID)
+);
+
+CREATE TABLE Afspraak_Vereist_contact (
+    Afpraak_ID VARCHAR(255),
+    Contactfiche_ID VARCHAR(255),
+    FOREIGN KEY (Afpraak_ID) REFERENCES Afpsraak_Alle(Afspraak_ID),
+    FOREIGN KEY (Contactfiche_ID) REFERENCES Contactfiche(Contactfiche_ID)
+);
+
 
 -- Table: Campagne
 CREATE TABLE Campagne (
@@ -77,12 +105,12 @@ CREATE TABLE Campagne (
 );
 
 -- Table: cdi pageviews
-CREATE TABLE CDI_PageViews (
+CREATE TABLE CDI_PageView (
     PageView_ID VARCHAR(255) PRIMARY KEY,
-    Anonymous BOOLEAN,
+    -- Anonymous BOOLEAN,
     Browser VARCHAR(50),
-    Campaign VARCHAR(255),
-    Contact VARCHAR(255),
+    Campaign_ID VARCHAR(255),
+    Contact_ID VARCHAR(255),
     Duration VARCHAR(255),
     Operating_System VARCHAR(50),
     Referrer_Type VARCHAR(255),
@@ -100,7 +128,11 @@ CREATE TABLE CDI_PageViews (
     Edited_By VARCHAR(255),
     Edited_On DATE,
     Status VARCHAR(255),
-    Status_Reason VARCHAR(255)
+    Status_Reason VARCHAR(255),
+    FOREIGN KEY (Campagne_ID) REFERENCES Campagne(Campagne_ID),
+    FOREIGN KEY (Contact_ID) REFERENCES Contactfiche(Contactfiche_ID),
+    -- FOREIGN KEY (Web_Content) REFERENCES ... staat niet aangeduid in het ERD
+    FOREIGN KEY ()
 );
 
 -- Table: cdi web content
@@ -123,14 +155,25 @@ CREATE TABLE CDI_WebContent (
 CREATE TABLE CDI_Visits (
     Visit_ID VARCHAR(255) PRIMARY KEY,
     IP_Address VARCHAR(255),
-    -- Add other columns as needed
+    Campagne_ID VARCHAR(255),
+    Contactfiche_ID VARCHAR(255),
+    Email_send VARCHAR(255),
+    Entry_page VARCHAR(255),
+    Exit_page VARCHAR(255),
+    FOREIGN KEY (Campagne_ID) REFERENCES Campagne(Campagne_ID),
+    FOREIGN KEY (Contactfiche_ID) REFERENCES Contactfiche(Contactfiche_ID),
+    FOREIGN KEY (Email_send) REFERENCES CDI_Mailing(Mailing_ID),
+    -- FOREIGN KEY (Entry_page) REFERENCES NIET VERMELD ERD,
+    -- FOREIGN KEY (Exit_page) REFERENCES NIET VERMELD ERD,
 );
 
 -- Table: cdi sent email clicks
 CREATE TABLE CDI_SentEmailClicks (
     SentEmailClicks_ID VARCHAR(255) PRIMARY KEY,
-    SentEmailClicks_Contact VARCHAR(255),
-    -- Add other columns as needed
+    Contactfiche_ID VARCHAR(255),
+    Email_versturen VARCHAR(255),
+    FOREIGN KEY (Contactfiche_ID) REFERENCES Contactfiche(Contactfiche_ID),
+    FOREIGN KEY (Email_versturen) REFERENCES CDI_Mailing(Mailing_ID)
 );
 
 -- Table: CDI mailing
@@ -143,18 +186,22 @@ CREATE TABLE CDI_Mailing (
 
 -- Table: Contact functie
 CREATE TABLE ContactFunctie (
-    ContactFunctie_ID VARCHAR(255) PRIMARY KEY,
-    Contactpersoon VARCHAR(255)
+    Functie_ID VARCHAR(255),
+    Persoon_ID VARCHAR(255),
+    FOREIGN KEY (Functie_ID) REFERENCES Functie(Functie_ID),
+    FOREIGN KEY (Persoon_ID) REFERENCES Contactfiche(Persoon_ID)
 );
 
 -- Table: Contact
-CREATE TABLE Contact (
-    Contact_persoon VARCHAR(255),
-    Contact_ID VARCHAR(255) PRIMARY KEY,
+CREATE TABLE Contactfiche (
+    Persoon_ID VARCHAR(255),
+    Contactfiche_ID VARCHAR(255) PRIMARY KEY,
     Account_ID VARCHAR(255), -- FK
     Functie_title VARCHAR(255),
     Status VARCHAR(255),
-    Voka_medewerker INTEGER -- BOOLEAN
+    Voka_medewerker INTEGER, -- BOOLEAN
+    FOREIGN KEY (Persoon_ID) REFERENCES Persoon(Persoon_ID),
+    FOREIGN KEY (Account_ID) REFERENCES Account(Account_ID)
 );
 
 -- Table: Gebruiker
@@ -163,7 +210,6 @@ CREATE TABLE Gebruiker (
     Business_unit_naam VARCHAR(255), -- staat niet in ERD maar hebben wel data
 );
 
--- Not sure about Aanvraag
 -- Table: Info en klachten
 CREATE TABLE Info_en_Klachten (
     Aanvraag VARCHAR(255) PRIMARY KEY
@@ -181,20 +227,22 @@ CREATE TABLE Inschrijving (
     Inschrijving_ID VARCHAR(255) PRIMARY KEY,
     Facturatie_bedrag INTEGER,
     Datum DateTime,
-    Contactfiche VARCHAR(255),
+    Contactfiche_ID VARCHAR(255),
     Bron VARCHAR(255),
-    Status VARCHAR(255) -- Aanwezig/Afwezig
+    Status VARCHAR(255), -- Aanwezig/Afwezig
+    FOREIGN KEY (Contactfiche_ID) REFERENCES Contactfiche(Contactfiche_ID),
+    FOREIGN KEY (Bron) REFERENCES Campagne(Campagne_ID)
 );
 
 -- Table: Lidmaatschap
 CREATE TABLE Lidmaatschap (
     Lidmaatschap_ID VARCHAR(255) PRIMARY KEY,
-    OndernemingID VARCHAR(255),
+    Onderneming_ID VARCHAR(255),
     Opzeg DateTime,
     Reden_Aangroei VARCHAR(255),
     Reden_Verloop VARCHAR(255),
     Start_Datum Date,
-    FOREIGN KEY (OndernemingID) REFERENCES Account(AccountID)
+    FOREIGN KEY (Onderneming_ID) REFERENCES Account(AccountID)
 );
 
 -- Table: Persoon
@@ -229,13 +277,13 @@ CREATE TABLE Sessie (
     Sessie_nr VARCHAR(255),
     Startdatum DateTime,
     Thema VARCHAR(255), 
-    FOREIGN KEY (Campagne_ID) REFERENCES Campagne(Campagne_ID),
+    FOREIGN KEY (Campagne_ID) REFERENCES Campagne(Campagne_ID)
 
 );
 
--- Table: Teams
-CREATE TABLE Teams (
-    Teams_ID VARCHAR(5) PRIMARY KEY,
-    Activiteit_naam VARCHAR(255)
-);
+-- Table: Teams NIET VERMELD IN ERD
+-- CREATE TABLE Teams (
+--     Teams_ID VARCHAR(5) PRIMARY KEY,
+--     Activiteit_naam VARCHAR(255)
+-- );
 
