@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import pyodbc
 
+#random code om te testen of ik kan pushen
 db_params = {
     'server': 'DESKTOP-300DAOQ\Eli,1433',
     'database': 'DEP2',
