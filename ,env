@@ -1,0 +1,4 @@
+SERVER = '127.0.0.1,1438'
+DATABASE = 'DEP2'
+USER = 'sa'
+PASSWORD = 'Admin123'
