@@ -1,4 +1,4 @@
-CREATE DATABASE DEP2;
+CREATE DATABASE IF NOT EXISTS DEP2;
 
 -- Account Table
 CREATE TABLE Account (
@@ -286,4 +286,5 @@ CREATE TABLE Sessie (
 --     Teams_ID VARCHAR(5) PRIMARY KEY,
 --     Activiteit_naam VARCHAR(255)
 -- );
+
 
