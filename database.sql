@@ -53,7 +53,7 @@ CREATE TABLE Activiteitscode (
 );
 
 -- Account ActiviteitsCode Table
-CREATE TABLE Account_ActiviteitsCode (
+CREATE TABLE Account_Activiteitscode (
     Account_ActiviteitsCode VARCHAR(255) PRIMARY KEY,
     Activiteitscode_ID VARCHAR(255),
     inf_account_inf_activiteitscodeId INT,
@@ -62,7 +62,7 @@ CREATE TABLE Account_ActiviteitsCode (
 );
 
 -- Account Financiele data Table
-CREATE TABLE Account_FinancieleData (
+CREATE TABLE Account_Financiele_Data (
     Account_ID VARCHAR(255) PRIMARY KEY,
     Boekjaar INT,
     Aantal_maanden INT,
@@ -72,7 +72,7 @@ CREATE TABLE Account_FinancieleData (
     FOREIGN KEY (Account_ID) REFERENCES Account(Account_ID)
 );
 
-CREATE TABLE ActiviteitVereistContact (
+CREATE TABLE Activiteit_Vereist_Contact (
     Activity_ID VARCHAR(255) PRIMARY KEY,
     ReqAttendee VARCHAR(255),
     FOREIGN KEY (Activity_ID) REFERENCES Activiteitscode(Activiteitscode_ID),
@@ -107,7 +107,7 @@ CREATE TABLE Afspraak_Betreft_Account (
     FOREIGN KEY (Account_ID) REFERENCES Account(Account_ID)
 );
 
-CREATE TABLE Afspraak_Vereist_contact (
+CREATE TABLE Afspraak_Vereist_Contact (
     Afpraak_ID VARCHAR(255),
     Contactfiche_ID VARCHAR(255),
     FOREIGN KEY (Afpraak_ID) REFERENCES Afpsraak_Alle(Afspraak_ID),
@@ -139,7 +139,7 @@ CREATE TABLE CDI_Mailing (
 );
 
 -- Table: cdi pageviews
-CREATE TABLE CDI_PageView (
+CREATE TABLE CDI_Page_View (
     PageView_ID VARCHAR(255) PRIMARY KEY,
     -- Anonymous BOOLEAN,
     Browser VARCHAR(50),
@@ -170,7 +170,7 @@ CREATE TABLE CDI_PageView (
 );
 
 -- Table: cdi web content
-CREATE TABLE CDI_WebContent (
+CREATE TABLE CDI_Web_Content (
     WebContent_ID VARCHAR(255) PRIMARY KEY,
     Web_Content VARCHAR(255),
     Campaign_ID VARCHAR(255),
@@ -205,7 +205,7 @@ CREATE TABLE CDI_Visits (
 
 
 -- Table: cdi sent email clicks
-CREATE TABLE CDI_SentEmailClicks (
+CREATE TABLE CDI_Sent_Email_Clicks (
     SentEmailClicks_ID VARCHAR(255) PRIMARY KEY,
     Contactfiche_ID VARCHAR(255),
     Email_versturen VARCHAR(255),
@@ -220,7 +220,7 @@ CREATE TABLE Functie(
 
 
 -- Table: Contact functie
-CREATE TABLE ContactFunctie (
+CREATE TABLE Contact_Functie (
     Functie_ID VARCHAR(255),
     Persoon_ID VARCHAR(255),
     FOREIGN KEY (Functie_ID) REFERENCES Functie(Functie_ID),
@@ -287,7 +287,7 @@ CREATE TABLE Sessie (
 
 
 -- Table: Sessie inschrijving
-CREATE TABLE SessieInschrijving (
+CREATE TABLE Sessie_Inschrijving (
     SessieInschrijving_ID VARCHAR(255) PRIMARY KEY,
     Sessie_ID VARCHAR(255),
     Inschrijving_ID VARCHAR(255),
