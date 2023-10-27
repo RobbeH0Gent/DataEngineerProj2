@@ -15,5 +15,7 @@ df.columns = [new_columns.get(col,col) for col in df.columns]
 
 df = df [['Persoon_ID','Contactfiche_ID', 'Account_ID','Functie_title','Status','Voka_medewerker']]
 
+df = df.dropna(how='all')
+
 # Save the modified DataFrame back to the original CSV file, overwriting it
 df.to_csv(csv_dir, index=False)

@@ -23,5 +23,7 @@ new_columns = {'crm_Account_Account' : 'Account_ID',
                 'crm_Account_Adres_Land' : 'Adres_Land',}
 df.columns = [new_columns.get(col,col) for col in df.columns]
 
+df = df.dropna(how='all')
+
 # Save the modified DataFrame back to the original CSV file, overwriting it
 df.to_csv(csv_dir, index=False)
