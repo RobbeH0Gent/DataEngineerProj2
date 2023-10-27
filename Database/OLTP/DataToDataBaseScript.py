@@ -4,8 +4,8 @@ import pandas as pd
 from sqlalchemy import create_engine, MetaData
 
 load_dotenv()
-  
-csv_dir = 'Data/' #path waar de data csv files staan
+
+csv_dir = "../../Data/" #path waar de data csv files staan
 SERVER = os.environ.get('SERVER')
 DATABASE = os.environ.get('DATABASE')
 UID = os.environ.get('USER')
