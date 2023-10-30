@@ -18,7 +18,6 @@ CREATE TABLE Account (
     Reden_van_status VARCHAR(255),
     Status VARCHAR(255),
     Voka_Nr_ INT,
-    Hoofd_NaCe_Code VARCHAR(255),
     Adres_Land VARCHAR(255)
 );
 
@@ -27,10 +26,7 @@ CREATE TABLE Persoon (
     Persoon_ID VARCHAR(255) PRIMARY KEY,
     Persoonnr INTEGER,
     Status_Persoon VARCHAR(255), -- Actief/Inactief
-    Email VARCHAR(255),
-    Regio VARCHAR(255), 
-    Thema VARCHAR(255),
-    Type_Persoon VARCHAR(255), -- VEEL OPTIES -> best anders aanpakken?
+ -- VEEL OPTIES -> best anders aanpakken?
     Marketing_Communicatie VARCHAR(255) -- Strikt/Flexibel
 );
 
@@ -105,10 +101,9 @@ CREATE TABLE Afspraak_Betreft_Contactfiche (
     Thema VARCHAR(255),
     Subthema VARCHAR(255),
     Onderwerp VARCHAR(255),
-    Betreft_ID VARCHAR(255),
+    Contactfiche_ID VARCHAR(255),
     Eindtijd VARCHAR(255),
     KeyPrhases VARCHAR(2500),
-    Contactfiche_ID VARCHAR(255),
     FOREIGN KEY (Afspraak_ID) REFERENCES Afspraak_Alle(Afspraak_ID),
     FOREIGN KEY (Contactfiche_ID) REFERENCES Contactfiche(Contactfiche_ID)
 );
@@ -119,10 +114,9 @@ CREATE TABLE Afspraak_Betreft_Account (
     Thema VARCHAR(255),
     Subthema VARCHAR(255),
     Onderwerp VARCHAR(255),
-    Betreft_ID VARCHAR(255),
+    Account_ID VARCHAR(255),
     Eindtijd VARCHAR(255),
     KeyPrhases VARCHAR(2500),
-    Account_ID VARCHAR(255),
     FOREIGN KEY (Afspraak_ID) REFERENCES Afspraak_Alle(Afspraak_ID),
     FOREIGN KEY (Account_ID) REFERENCES Account(Account_ID)
 );
@@ -211,7 +205,6 @@ CREATE TABLE CDI_Visits (
     Adobe_Reader VARCHAR(255),
     Bounce VARCHAR(255),
     Browser VARCHAR(255),
-    Campagine_Code VARCHAR(255),
     Campagne_ID VARCHAR(255),
     IP_Stad VARCHAR(255),
     IP_Company VARCHAR(255),
@@ -264,12 +257,13 @@ CREATE TABLE CDI_Sent_Email_Clicks (
 -- Table: Functie
 CREATE TABLE Functie(
     Functie_ID VARCHAR(255) PRIMARY KEY
+    Functie_Naam VARCHAR(255),
 );
 
 -- Table: Contact functie
 CREATE TABLE ContactFunctie (
-    Functie_ID VARCHAR(255),
     Persoon_ID VARCHAR(255),
+    Functie_ID VARCHAR(255),
     FOREIGN KEY (Functie_ID) REFERENCES Functie(Functie_ID),
     FOREIGN KEY (Persoon_ID) REFERENCES Contactfiche(Contactfiche_ID)
 );
@@ -296,12 +290,12 @@ CREATE TABLE Info_en_Klachten (
 
 -- Table: Inschrijving
 CREATE TABLE Inschrijving (
+    Status VARCHAR(255), -- Aanwezig/Afwezig
+    Bron VARCHAR(255),
+    Contactfiche_ID VARCHAR(255),
+    Datum DateTime,
     Inschrijving_ID VARCHAR(255) PRIMARY KEY,
     Facturatie_bedrag INTEGER,
-    Datum DateTime,
-    Contactfiche_ID VARCHAR(255),
-    Bron VARCHAR(255),
-    Status VARCHAR(255), -- Aanwezig/Afwezig
     FOREIGN KEY (Contactfiche_ID) REFERENCES Contactfiche(Contactfiche_ID),
     FOREIGN KEY (Bron) REFERENCES Campagne(Campagne_ID)
 );
@@ -322,7 +316,7 @@ CREATE TABLE Lidmaatschap (
 -- Table: Sessie
 CREATE TABLE Sessie (
     Sessie_ID VARCHAR(255), -- PRIMARY KEY NEEDS TO BE NULLABLE
-    -- Guid_campagne VARCHAR(255), FK?
+    Campagne_ID VARCHAR(255),
     Activiteitstype VARCHAR(255),
     Campagne_ID VARCHAR(255), 
     Einddatum VARCHAR(255),

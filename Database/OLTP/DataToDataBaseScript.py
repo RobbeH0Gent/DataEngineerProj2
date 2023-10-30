@@ -60,7 +60,7 @@ try:
 
 
         if df.isnull().values.any():
-            df.dropna(inplace=True)
+            df.dropna(how='all')
 
 
         df.to_sql(table_name, con=engine, schema='dbo', if_exists='append', index=False)

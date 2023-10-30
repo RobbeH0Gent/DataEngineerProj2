@@ -20,8 +20,7 @@ CREATE TABLE DimAccount (
     Reden_van_status VARCHAR(255),
     Status VARCHAR(255),
     Voka_Nr_ INT,
-    Hoofd_NaCe_Code VARCHAR(255),
-    Adres_Land VARCHAR(255)
+    Adres_Land VARCHAR(255),
 );
 
 -- DimPersoon
@@ -29,10 +28,6 @@ CREATE TABLE DimPersoon (
     Persoon_ID VARCHAR(255) PRIMARY KEY,
     Persoonnr INTEGER,
     Status_Persoon VARCHAR(255), -- Actief/Inactief
-    Email VARCHAR(255),
-    Regio VARCHAR(255), 
-    Thema VARCHAR(255),
-    Type_Persoon VARCHAR(255), -- VEEL OPTIES -> best anders aanpakken?
     Marketing_Communicatie VARCHAR(255) -- Strikt/Flexibel
 );
 
@@ -105,7 +100,6 @@ CREATE TABLE DimCDI_Visits (
     Adobe_Reader VARCHAR(255),
     Bounce VARCHAR(255),
     Browser VARCHAR(255),
-    Campagne_Code VARCHAR(255),
     Campagne_ID VARCHAR(255),
     IP_Stad VARCHAR(255),
     IP_Company VARCHAR(255),

@@ -2,7 +2,7 @@ import pandas as pd
 
 # Read the CSV file into a DataFrame
 
-csv_dir ='C:/Users/Eli/Desktop/DATA/Persoon.csv'
+csv_dir ='C:/Users/Eli/Desktop/DEPII/Persoon.csv'
 
 df = pd.read_csv(csv_dir)
 
