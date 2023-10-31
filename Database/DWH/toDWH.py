@@ -1,9 +1,20 @@
 import pandas as pd
 import pyodbc
+import os
 
-# Aanpassen naar het juiste
-dep2_connection_string = 'DRIVER={SQL Server};SERVER=DEP2_SERVER;DATABASE=?;UID=?;PWD=?'
-dw_connection_string = 'DRIVER={SQL Server};SERVER=DW_SERVER;DATABASE=?;UID=?;PWD=?'
+from dotenv import load_dotenv
+
+load_dotenv()
+
+SERVER = os.environ.get('SERVER')
+UID = os.environ.get('USER')
+PWD = os.environ.get('PASSWORD')
+
+OLTP_DATABASE = os.environ.get('OLTP_DATABASE')
+DWH_DATABASE = os.environ.get('DWH_DATABASE')
+
+dep2_connection_string = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={SERVER};DATABASE={OLTP_DATABASE};UID={UID};PWD={PWD}'
+dw_connection_string = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={SERVER};DATABASE={DWH_DATABASE};UID={UID};PWD={PWD}'
 
 dep2_connection = pyodbc.connect(dep2_connection_string)
 dw_connection = pyodbc.connect(dw_connection_string)
