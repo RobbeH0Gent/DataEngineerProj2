@@ -5,7 +5,7 @@ from sqlalchemy import create_engine, MetaData
 
 load_dotenv()
 
-csv_dir = "../../Data/" #path waar de data csv files staan
+csv_dir = "C:/Users/Eli/Desktop/DATA" #path waar de data csv files staan
 SERVER = os.environ.get('SERVER')
 DATABASE = os.environ.get('DATABASE')
 UID = os.environ.get('USER')
@@ -14,32 +14,40 @@ PWD = os.environ.get('PASSWORD')
 
 
 table_file = {
-    # 'Account' : 'Account.csv', # DONE
-    # 'Persoon' : 'Persoon.csv', # DONE
-    # 'Contactfiche' : 'Contact.csv', # FK PROBLEM ACCOUNT_ID
-    # 'Activiteitscode' : 'Activiteitscode.csv', # DONE
-    # 'Account_ActiviteitsCode' : 'Account_activiteitscode.csv',  # DONE  
-    # 'Account_Financiele_Data' : 'Account_financiele_data.csv',     # FK PROBLEM  ACCOUNT_ID
-    'Activiteit_Vereist_Contact' : 'Activiteit_vereist_contact.csv', # DUPLICATES
-    # 'Afspraak_Alle' : 'Afspraak_alle.csv', # DONE
+    ##'Account' : 'Account.csv', # DONE
+    ##'Persoon' : 'Persoon.csv', # DONE
+    ## 'Contactfiche' : 'Contact.csv', # DONE
+    ##'Activiteitscode' : 'Activiteitscode.csv', # DONE
+    ## 'Account_ActiviteitsCode' : 'Account_activiteitscode.csv',  # DONE  
+     'Account_Financiele_Data' : 'Account_financiele_data.csv',     # FK PROBLEM  ACCOUNT_ID
+    # 'Activiteit_Vereist_Contact' : 'Activiteit_vereist_contact.csv', # FK PROBLEM
+    ##'Afspraak_Alle' : 'Afspraak_alle.csv', # DONE
     # 'Afspraak_Account_Gelinkt' : 'Afspraak_account_gelinkt_cleaned.csv', # FK PROBLEM
     # 'Afspraak_Betreft_Contactfiche': 'Afspraak betreft contact_cleaned.csv', # FK PROBLEM
     # 'Afspraak_Betreft_Account' : 'Afspraak betreft account_cleaned.csv', # FK PROBLEM 
-    # 'Campagne' : 'Campagne.csv', # DONE
-    # 'CDI_Mailing' : 'CDI_mailing.csv', # DONE
+    ##'Campagne' : 'Campagne.csv', # DONE
+    ##'CDI_Mailing' : 'CDI_mailing.csv', # DONE
     # 'CDI_PageView' : 'cdi_pageviews.csv', # PROBLEM WITH ';' 
-    # 'CDI_Web_Content' : 'CDI_web_content.csv',  # DONE
+    ##'CDI_Web_Content' : 'CDI_web_content.csv',  # DONE
     #    'CDI_Visits' : 'CDI_visits.csv', # FK PROBLEM
     # 'CDI_Sent_Email_Clicks' : 'CDI_sent_email_clicks.csv',  # DUPLICATES
     # 'Functie' : 'Functie.csv', # DUPLICATES
     # 'ContactFunctie' : 'Contact_functie.csv',  # FK PROBLEM
-    # 'Gebruiker' : 'Gebruikers.csv', # DONE
+    ##'Gebruiker' : 'Gebruikers.csv', # DONE
     # 'Info_en_Klachten' : 'Info_en_klachten.csv', # FK PROBLEM
     # 'Inschrijving' : 'Inschrijving.csv', # DUPLICATES
     # 'Lidmaatschap' : 'Lidmaatschap.csv', # FK PROBLEM
     # 'Sessie' : 'Sessie.csv', # FK PROBLEM
     # 'Sessie_Inschrijving': 'Sessie_inschrijving.csv'
 }
+
+df1 = pd.read_csv('C:/Users/Eli/Desktop/DATA/Account_financiele_data.csv')
+df2 = pd.read_csv('C:/Users/Eli/Desktop/DATA/Account.csv')
+#df3 = pd.read_csv('C:/Users/Eli/Desktop/DATA/Contact.csv')
+
+
+df1 = df1[~df1['crm_FinancieleData_OndernemingID'].isin(df2['crm_Account_Account'])]
+#filtered_contacts2 = df1[~df1['crm_ActiviteitVereistContact_ReqAttendee'].isin(df3['crm_Contact_Contactpersoon'])]
 
 
 try:
@@ -54,7 +62,7 @@ try:
         table_columns = metadata.tables[table_name].columns.keys()
         file_path = os.path.join(csv_dir, file_name)
 
-        df = pd.read_csv(file_path, on_bad_lines='skip')
+        df = df1  #pd.read_csv(file_path, on_bad_lines='skip')
         df = df.rename(columns={csv_col: sql_col for csv_col, sql_col in zip(df.columns, table_columns)})
 
 

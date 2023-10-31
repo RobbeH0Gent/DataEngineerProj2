@@ -61,12 +61,13 @@ CREATE TABLE Account_ActiviteitsCode (
 
 -- Account Financiele data Table
 CREATE TABLE Account_Financiele_Data (
-    Account_ID VARCHAR(255) PRIMARY KEY,
+    Account_ID VARCHAR(255),
     Boekjaar INT,
     Aantal_maanden INT,
     Toegevoegde_waarde VARCHAR(255),
     FTE VARCHAR(255),
     Gewijzigd_op VARCHAR(255),
+    PRIMARY KEY (Account_ID, Boekjaar), -- Composite key
     FOREIGN KEY (Account_ID) REFERENCES Account(Account_ID)
 );
 
