@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Read the CSV file into a DataFrame
-csv_dir = 'C:/Users/Eli/Desktop/DEPII/Activiteit vereist contact.csv'
+csv_dir = '../../Data/Activiteit_vereist_contact.csv'
 df = pd.read_csv(csv_dir)
 
 df = df.dropna(how='all')

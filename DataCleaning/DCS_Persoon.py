@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Read the CSV file into a DataFrame
-csv_dir = 'C:/Users/Eli/Desktop/DEPII/Persoon.csv'
+csv_dir = '../../Data/Persoon.csv'
 df = pd.read_csv(csv_dir)
 
 # List of columns that represent one-hot encoded categories

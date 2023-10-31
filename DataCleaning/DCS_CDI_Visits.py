@@ -1,10 +1,9 @@
 import pandas as pd
 
 # Read the CSV file into a DataFrame
-csv_dir = 'C:/Users/Eli/Desktop/DEPII/CDI visits.csv'
+csv_dir = '../../Data/CDI_visits.csv'
 df = pd.read_csv(csv_dir)
 
-df = df.drop(['crm_CDI_Visit_Campagne_Code'], axis=1)
 df = df.dropna(how='all')
 
 

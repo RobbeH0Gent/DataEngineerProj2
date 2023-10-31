@@ -15,17 +15,16 @@ PWD = os.environ.get('PASSWORD')
 
 table_file = {
     # 'Account' : 'Account.csv', # DONE
-    # # 'Persoon' : 'Persoon.csv', # ALOT OF COLUMNS NOT IN OLTP - TEAM
-    # 'Contactfiche' : 'Contact.csv', # DUPLICATES
+    # 'Persoon' : 'Persoon.csv', # DONE
+    # 'Contactfiche' : 'Contact.csv', # FK PROBLEM ACCOUNT_ID
     # 'Activiteitscode' : 'Activiteitscode.csv', # DONE
     # 'Account_ActiviteitsCode' : 'Account_activiteitscode.csv',  # DONE  
-    # 'Account_Financiele_Data' : 'Account_financiele_data.csv',     # DUPLICATES  
-    # 'Activiteit_Vereist_Contact' : 'Activiteit_vereist_contact.csv', # DUPLICATES
+    # 'Account_Financiele_Data' : 'Account_financiele_data.csv',     # FK PROBLEM  ACCOUNT_ID
+    'Activiteit_Vereist_Contact' : 'Activiteit_vereist_contact.csv', # DUPLICATES
     # 'Afspraak_Alle' : 'Afspraak_alle.csv', # DONE
     # 'Afspraak_Account_Gelinkt' : 'Afspraak_account_gelinkt_cleaned.csv', # FK PROBLEM
     # 'Afspraak_Betreft_Contactfiche': 'Afspraak betreft contact_cleaned.csv', # FK PROBLEM
-    # 'Afspraak_Betreft_Account' : 'Afspraak betreft account_cleaned.csv', # FK PROBLEM
-    # 'Afspraak_Vereist_Contact' : 'Activiteit_vereist_contact.csv',   # FK PROBLEM  
+    # 'Afspraak_Betreft_Account' : 'Afspraak betreft account_cleaned.csv', # FK PROBLEM 
     # 'Campagne' : 'Campagne.csv', # DONE
     # 'CDI_Mailing' : 'CDI_mailing.csv', # DONE
     # 'CDI_PageView' : 'cdi_pageviews.csv', # PROBLEM WITH ';' 
@@ -64,7 +63,7 @@ try:
 
 
         df.to_sql(table_name, con=engine, schema='dbo', if_exists='append', index=False)
-        print(f"{table_name}")
+        print(f"{table_name} done")
     print("Done")
 
 except Exception as e:
