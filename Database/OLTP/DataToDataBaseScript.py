@@ -5,7 +5,7 @@ from sqlalchemy import create_engine, MetaData
 
 load_dotenv()
 
-csv_dir = "C:/Users/Eli/Desktop/DATA" #path waar de data csv files staan
+csv_dir = "../../Data/" #path waar de data csv files staan
 SERVER = os.environ.get('SERVER')
 DATABASE = os.environ.get('DATABASE')
 UID = os.environ.get('USER')
@@ -19,8 +19,8 @@ table_file = {
     ## 'Contactfiche' : 'Contact.csv', # DONE
     ##'Activiteitscode' : 'Activiteitscode.csv', # DONE
     ## 'Account_ActiviteitsCode' : 'Account_activiteitscode.csv',  # DONE  
-     'Account_Financiele_Data' : 'Account_financiele_data.csv',     # FK PROBLEM  ACCOUNT_ID
-    # 'Activiteit_Vereist_Contact' : 'Activiteit_vereist_contact.csv', # FK PROBLEM
+    # 'Account_Financiele_Data' : 'Account_financiële_data.csv',     # DONE
+    'Activiteit_Vereist_Contact' : 'Activiteit_vereist_contact.csv', # FK PROBLEM
     ##'Afspraak_Alle' : 'Afspraak_alle.csv', # DONE
     # 'Afspraak_Account_Gelinkt' : 'Afspraak_account_gelinkt_cleaned.csv', # FK PROBLEM
     # 'Afspraak_Betreft_Contactfiche': 'Afspraak betreft contact_cleaned.csv', # FK PROBLEM
@@ -41,15 +41,6 @@ table_file = {
     # 'Sessie_Inschrijving': 'Sessie_inschrijving.csv'
 }
 
-df1 = pd.read_csv('C:/Users/Eli/Desktop/DATA/Account_financiele_data.csv')
-df2 = pd.read_csv('C:/Users/Eli/Desktop/DATA/Account.csv')
-#df3 = pd.read_csv('C:/Users/Eli/Desktop/DATA/Contact.csv')
-
-
-df1 = df1[~df1['crm_FinancieleData_OndernemingID'].isin(df2['crm_Account_Account'])]
-#filtered_contacts2 = df1[~df1['crm_ActiviteitVereistContact_ReqAttendee'].isin(df3['crm_Contact_Contactpersoon'])]
-
-
 try:
     connection_string = f'mssql+pyodbc://{UID}:{PWD}@{SERVER}/{DATABASE}?driver=ODBC+Driver+17+for+SQL+Server'
     engine = create_engine(connection_string)
@@ -62,7 +53,7 @@ try:
         table_columns = metadata.tables[table_name].columns.keys()
         file_path = os.path.join(csv_dir, file_name)
 
-        df = df1  #pd.read_csv(file_path, on_bad_lines='skip')
+        df = pd.read_csv(file_path, on_bad_lines='skip')
         df = df.rename(columns={csv_col: sql_col for csv_col, sql_col in zip(df.columns, table_columns)})
 
 
