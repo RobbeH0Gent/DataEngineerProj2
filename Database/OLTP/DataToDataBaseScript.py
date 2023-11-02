@@ -5,7 +5,7 @@ from sqlalchemy import create_engine, MetaData
 
 load_dotenv()
 
-csv_dir = "../../Data/" #path waar de data csv files staan
+csv_dir = "../../Data" #path waar de data csv files staan
 SERVER = os.environ.get('SERVER')
 DATABASE = os.environ.get('DATABASE')
 UID = os.environ.get('USER')
@@ -14,31 +14,31 @@ PWD = os.environ.get('PASSWORD')
 
 
 table_file = {
-    ##'Account' : 'Account.csv', # DONE
-    ##'Persoon' : 'Persoon.csv', # DONE
-    ## 'Contactfiche' : 'Contact.csv', # DONE
-    ##'Activiteitscode' : 'Activiteitscode.csv', # DONE
-    ## 'Account_ActiviteitsCode' : 'Account_activiteitscode.csv',  # DONE  
-    # 'Account_Financiele_Data' : 'Account_financiële_data.csv',     # DONE
-    'Activiteit_Vereist_Contact' : 'Activiteit_vereist_contact.csv', # FK PROBLEM
-    ##'Afspraak_Alle' : 'Afspraak_alle.csv', # DONE
-    # 'Afspraak_Account_Gelinkt' : 'Afspraak_account_gelinkt_cleaned.csv', # FK PROBLEM
-    # 'Afspraak_Betreft_Contactfiche': 'Afspraak betreft contact_cleaned.csv', # FK PROBLEM
-    # 'Afspraak_Betreft_Account' : 'Afspraak betreft account_cleaned.csv', # FK PROBLEM 
-    ##'Campagne' : 'Campagne.csv', # DONE
-    ##'CDI_Mailing' : 'CDI_mailing.csv', # DONE
-    # 'CDI_PageView' : 'cdi_pageviews.csv', # PROBLEM WITH ';' 
-    ##'CDI_Web_Content' : 'CDI_web_content.csv',  # DONE
-    #    'CDI_Visits' : 'CDI_visits.csv', # FK PROBLEM
-    # 'CDI_Sent_Email_Clicks' : 'CDI_sent_email_clicks.csv',  # DUPLICATES
-    # 'Functie' : 'Functie.csv', # DUPLICATES
-    # 'ContactFunctie' : 'Contact_functie.csv',  # FK PROBLEM
-    ##'Gebruiker' : 'Gebruikers.csv', # DONE
-    # 'Info_en_Klachten' : 'Info_en_klachten.csv', # FK PROBLEM
-    # 'Inschrijving' : 'Inschrijving.csv', # DUPLICATES
-    # 'Lidmaatschap' : 'Lidmaatschap.csv', # FK PROBLEM
-    # 'Sessie' : 'Sessie.csv', # FK PROBLEM
-    # 'Sessie_Inschrijving': 'Sessie_inschrijving.csv'
+    'Account' : 'Account.csv',
+    'Persoon' : 'Persoon.csv',
+    'Contactfiche' : 'Contact.csv',
+    'Activiteitscode' : 'Activiteitscode.csv',
+    'Account_ActiviteitsCode' : 'Account_activiteitscode.csv',   
+    'Account_Financiele_Data' : 'Account_financiële_data.csv',    
+    'Afspraak_Alle' : 'Afspraak_alle.csv',
+    'Activiteit_Vereist_Contact' : 'Activiteit_vereist_contact.csv',
+    'Afspraak_Account_Gelinkt' : 'Afspraak_account_gelinkt_cleaned.csv',
+    'Afspraak_Betreft_Contactfiche': 'Afspraak betreft contact_cleaned.csv',
+    'Afspraak_Betreft_Account' : 'Afspraak betreft account_cleaned.csv',
+    'Campagne' : 'Campagne.csv',
+    'CDI_Mailing' : 'CDI_mailing.csv',
+    'CDI_PageView' : 'cdi_pageviews.csv',
+    'CDI_Web_Content' : 'CDI_web_content.csv', 
+    'CDI_Visits' : 'CDI_visits.csv',
+    'CDI_Sent_Email_Clicks' : 'CDI_sent_email_clicks.csv', 
+    'Functie' : 'Functie.csv',
+    'ContactFunctie' : 'Contact_functie.csv', 
+    'Gebruiker' : 'Gebruikers.csv',
+    'Info_en_Klachten' : 'Info_en_klachten.csv',
+    'Inschrijving' : 'Inschrijvingen.csv',
+    'Lidmaatschap' : 'Lidmaatschap.csv',
+    'Sessie' : 'Sessie.csv',
+    'SessieInschrijving': 'Sessie_inschrijving.csv'
 }
 
 try:
@@ -55,11 +55,10 @@ try:
 
         df = pd.read_csv(file_path, on_bad_lines='skip')
         df = df.rename(columns={csv_col: sql_col for csv_col, sql_col in zip(df.columns, table_columns)})
-
+        
 
         if df.isnull().values.any():
             df.dropna(how='all')
-
 
         df.to_sql(table_name, con=engine, schema='dbo', if_exists='append', index=False)
         print(f"{table_name} done")
