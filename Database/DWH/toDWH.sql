@@ -1,3 +1,23 @@
+BEGIN TRANSACTION;
+USE DW
+-- Delete existing data from destination tables
+DELETE FROM DW.dbo.DimAccount;
+DELETE FROM DW.dbo.DimActiviteitscode;
+DELETE FROM DW.dbo.DimCampagne;
+DELETE FROM DW.dbo.DimCDI_Mailing;
+DELETE FROM DW.dbo.DimCDI_PageView;
+DELETE FROM DW.dbo.DimCDI_Visits;
+DELETE FROM DW.dbo.DimContactfiche;
+DELETE FROM DW.dbo.DimGebruiker;
+DELETE FROM DW.dbo.DimInfo_en_Klachten;
+DELETE FROM DW.dbo.DimInschrijving;
+DELETE FROM DW.dbo.DimLidmaatschap;
+DELETE FROM DW.dbo.DimPersoon;
+DELETE FROM DW.dbo.DimSessie;
+DELETE FROM DW.dbo.DimTeams;
+DELETE FROM DW.dbo.FactTable;
+
+
 -- Transfer data from DEP2 to DW
 
 -- DimAccount
@@ -55,22 +75,155 @@ SELECT
     Mailing_Subject
 FROM DEP2.dbo.CDI_Mailing;
 
--- DimFactTable
-INSERT INTO DW.dbo.FactTable
+-- DimCDI_PageView
+INSERT INTO DW.dbo.DimCDI_PageView
 SELECT
-    Fact_ID,
-    Account_ID,
-    Persoon_ID,
-    Contactfiche_ID,
-    Activiteitscode_ID,
+    PageView_ID,
+    Browser,
     Campagne_ID,
-    CDI_Mailing_ID,
-    CDI_PageView_ID,
-    CDI_Visits_ID,
+    Contact_ID,
+    Duration,
+    Operating_System,
+    PageView_Time,
+    Title,
+    Type,
+    NULL, --Url,
+    Viewed_On,
+    Visit,
+    Visitor_key,
+    Web_Content,
+    Made_On,
+    Edited_By,
+    Edited_On,
+    Status,
+    Status_Reason
+FROM DEP2.dbo.CDI_PageView;
+
+-- DimCDI_Visits
+INSERT INTO DW.dbo.DimCDI_Visits
+SELECT
+    Visit_ID,
+    Adobe_Reader,
+    Bounce,
+    Browser,
+    NULL, --Campagne_Code,
+    Campagne_ID,
+    IP_Stad,
+    IP_Company,
+    Contactfiche_ID,
+    Contact_Naam,
+    Social_Profile,
+    IP_Land,
+    Duration,
+    Email_Send,
+    Ended_On,
+    Entry_page,
+    Exit_page,
+    First_Visit,
+    IP_Adress,
+    IP_Organization,
+    Keywords,
+    IP_Latitude,
+    IP_Longitude,
+    Operating_System,
+    IP_Postcode,
+    Referrer,
+    Referring_Host,
+    Score,
+    Referrer_Type,
+    Started_On,
+    IP_Status,
+    Visit_Time,
+    Total_Pages,
+    Aangemaakt_op,
+    Gewijzigd_op
+FROM DEP2.dbo.CDI_Visits;
+
+-- DimContactfiche
+INSERT INTO DW.dbo.DimContactfiche
+SELECT
+    Contactfiche_ID,
+    Persoon_ID,
+    Account_ID,
+    Functie_title,
+    Status,
+    Voka_medewerker
+FROM DEP2.dbo.Contactfiche;
+
+-- DimGebruiker
+INSERT INTO DW.dbo.DimGebruiker
+SELECT
     Gebruiker_ID,
-    Info_en_Klachten_Aanvraag,
+    Business_unit_naam
+FROM DEP2.dbo.Gebruiker;
+
+-- DimInfo_en_Klachten
+INSERT INTO DW.dbo.DimInfo_en_Klachten
+SELECT
+    Aanvraag,
+    Account_ID,
+    Datum,
+    Datum_afsluiting,
+    Status,
+    Eigenaar
+FROM DEP2.dbo.Info_en_Klachten;
+
+-- DimInschrijving
+INSERT INTO DW.dbo.DimInschrijving
+SELECT
     Inschrijving_ID,
+    Facturatie_bedrag,
+    Datum,
+    Contactfiche_ID,
+    Bron,
+    Status
+FROM DEP2.dbo.Inschrijving;
+
+-- DimLidmaatschap
+INSERT INTO DW.dbo.DimLidmaatschap
+SELECT
     Lidmaatschap_ID,
+    Onderneming_ID,
+    Opzeg,
+    Reden_Aangroei,
+    Reden_Verloop,
+    Start_Datum
+FROM DEP2.dbo.Lidmaatschap;
+
+-- DimPersoon
+INSERT INTO DW.dbo.DimPersoon
+SELECT
+    Persoon_ID,
+    Persoonnr,
+    NULL, --Status_Persoon,
+    NULL, --Email,
+    NULL, --Regio,
+    NULL, --Thema,
+    NULL, --Type_Persoon,
+    Marketing_Communicatie
+FROM DEP2.dbo.Persoon; 
+
+-- DimSessie
+INSERT INTO DW.dbo.DimSessie
+SELECT
     Sessie_ID,
-    Teams_ID
-FROM DEP2.dbo.FactTable;
+    Activiteitstype,
+    Campagne_ID,
+    Einddatum,
+    Product,
+    Sessie_nr,
+    Startdatum,
+    Thema
+FROM DEP2.dbo.Sessie;
+
+-- DimTeams
+-- INSERT INTO DW.dbo.DimTeams
+-- SELECT
+   -- Teams_ID,
+    -- Activiteit_naam
+-- FROM DEP2.dbo.Teams;
+
+--FactTable
+
+
+COMMIT;
