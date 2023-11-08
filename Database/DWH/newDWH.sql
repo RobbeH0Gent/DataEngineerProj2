@@ -1,37 +1,40 @@
--- Dimension Tables
+DROP DATABASE IF EXISTS DW;
+CREATE DATABASE DW;
+USE DW;
 
-DROP TABLE IF EXISTS `dimdate`;
-CREATE TABLE `dimdate` (
-  `date_Key` int NOT NULL,
-  `date` date DEFAULT NULL,
-  `day_num` int DEFAULT NULL,
-  `day_of_year` int DEFAULT NULL,
-  `day_of_week` int DEFAULT NULL,
-  `day_of_week_name` varchar(20) DEFAULT NULL,
-  `week_num` int DEFAULT NULL,
-  `week_begin_date` datetime DEFAULT NULL,
-  `week_end_date` datetime DEFAULT NULL,
-  `last_week_begin_date` datetime DEFAULT NULL,
-  `last_week_end_date` datetime DEFAULT NULL,
-  `last_2_week_begin_date` datetime DEFAULT NULL,
-  `last_2_week_end_date` datetime DEFAULT NULL,
-  `month_num` int DEFAULT NULL,
-  `month_name` varchar(20) DEFAULT NULL,
-  `yearmonth_num` int DEFAULT NULL,
-  `last_month_num` int DEFAULT NULL,
-  `last_month_name` varchar(20) DEFAULT NULL,
-  `last_month_year` int DEFAULT NULL,
-  `last_yearmonth_num` int DEFAULT NULL,
-  `quarter_num` int DEFAULT NULL,
-  `year_num` int DEFAULT NULL,
-  `is_weekday` bit(1) DEFAULT b'1',
-  `holiday_BE` varchar(50) DEFAULT NULL,
-  `is_holiday_BE` bit(1) DEFAULT b'0',
-  PRIMARY KEY (`date_Key`)
+
+-- Dimension Tables
+DROP TABLE IF EXISTS DimDate;
+CREATE TABLE DimDate (
+    date_Key int NOT NULL PRIMARY KEY,
+    date date DEFAULT NULL,
+    day_num int DEFAULT NULL,
+    day_of_year int DEFAULT NULL,
+    day_of_week int DEFAULT NULL,
+    day_of_week_name varchar(20) DEFAULT NULL,
+    week_num int DEFAULT NULL,
+    week_begin_date datetime DEFAULT NULL,
+    week_end_date datetime DEFAULT NULL,
+    last_week_begin_date datetime DEFAULT NULL,
+    last_week_end_date datetime DEFAULT NULL,
+    last_2_week_begin_date datetime DEFAULT NULL,
+    last_2_week_end_date datetime DEFAULT NULL,
+    month_num int DEFAULT NULL,
+    month_name varchar(20) DEFAULT NULL,
+    yearmonth_num int DEFAULT NULL,
+    last_month_num int DEFAULT NULL,
+    last_month_name varchar(20) DEFAULT NULL,
+    last_month_year int DEFAULT NULL,
+    last_yearmonth_num int DEFAULT NULL,
+    quarter_num int DEFAULT NULL,
+    year_num int DEFAULT NULL,
+    is_weekday VARCHAR(1)  DEFAULT '1',
+    holiday_BE varchar(50) DEFAULT NULL,
+    is_holiday_BE VARCHAR(1) DEFAULT '0',
 );
 
 -- I merged the tables Account and Persoon as DimCustomer
-DROP TABLE IF EXISTS `DimCustomer`;
+DROP TABLE IF EXISTS DimCustomer;
 CREATE TABLE DimCustomer (
     Customer_ID VARCHAR(255) PRIMARY KEY,
     Geografische_regio VARCHAR(255),
@@ -56,7 +59,7 @@ CREATE TABLE DimCustomer (
 );
 
 -- I merged the tables: Contactfiche and Functie Table as DimContact
-DROP TABLE IF EXISTS `DimContact`;
+DROP TABLE IF EXISTS DimContact;
 CREATE TABLE DimContact (
     Contact_ID VARCHAR(255) PRIMARY KEY,
     Account_ID VARCHAR(255),
@@ -69,7 +72,7 @@ CREATE TABLE DimContact (
 );
 
 -- I merged the tables: CDI_Mailing and CDI_PageView as DimEmail
-DROP TABLE IF EXISTS `DimEmail`;
+DROP TABLE IF EXISTS DimEmail;
 CREATE TABLE DimEmail (
     Mailing_ID VARCHAR(255) PRIMARY KEY,
     Mailing_Name VARCHAR(255),
@@ -96,25 +99,29 @@ CREATE TABLE DimEmail (
     Status_Reason VARCHAR(255)
 );
 
+-- CREATE TABLE DimAfspraak(
+-- 
+-- );
+
 -- Fact Tables
-DROP TABLE IF EXISTS `FactContact`;
+DROP TABLE IF EXISTS FactContact;
 CREATE TABLE FactContact (
     Contact_ID VARCHAR(255),
     Afspraak_ID VARCHAR(255),
     FOREIGN KEY (Contact_ID) REFERENCES DimContact(Contact_ID),
-    FOREIGN KEY (Afspraak_ID) REFERENCES Afspraak_Alle(Afspraak_ID)
+    -- FOREIGN KEY (Afspraak_ID) REFERENCES Afspraak_Alle(Afspraak_ID)
 );
 
-DROP TABLE IF EXISTS `FactAccount`;
+DROP TABLE IF EXISTS FactAccount;
 CREATE TABLE FactAccount (
-    Account_ID VARCHAR(255),
+    Customer_ID VARCHAR(255),
     Boekjaar INT,
     Aantal_maanden INT,
     Toegevoegde_waarde VARCHAR(255),
     FTE VARCHAR(255),
     Gewijzigd_op VARCHAR(255),
-    PRIMARY KEY (Account_ID, Boekjaar),
-    FOREIGN KEY (Account_ID) REFERENCES DimCustomer(Customer_ID)
+    PRIMARY KEY (Customer_ID, Boekjaar),
+    FOREIGN KEY (Customer_ID) REFERENCES DimCustomer(Customer_ID)
 );
 
 -- Add if u think we need more dim or fact tables
