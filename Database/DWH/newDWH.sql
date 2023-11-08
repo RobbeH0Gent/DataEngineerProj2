@@ -99,9 +99,37 @@ CREATE TABLE DimEmail (
     Status_Reason VARCHAR(255)
 );
 
--- CREATE TABLE DimAfspraak(
--- 
--- );
+-- Campagne + inschrijving
+DROP TABLE IF EXISTS DimCampagne;
+CREATE TABLE DimCampagne(
+    Campagne_ID VARCHAR(255) PRIMARY KEY,
+    Campagne_Nr VARCHAR(255),
+    Einddatum VARCHAR(255),
+    Naam VARCHAR(255),
+    Naam_in_email VARCHAR(255),
+    Reden_van_status VARCHAR(255),
+    Startdatum VARCHAR(255),
+    Status_Camp VARCHAR(255),
+    Type_campagne VARCHAR(255),
+    URL_voka_be VARCHAR(255),
+    Soort_Campagne VARCHAR(255),
+    Status VARCHAR(255),
+    Contactfiche_ID VARCHAR(255),
+    Datum DateTime,
+    Inschrijving_ID VARCHAR(255),
+    Facturatie_bedrag INTEGER,
+)
+
+DROP TABLE IF EXISTS DimAfspraak;
+CREATE TABLE DimAfspraak(
+    Afspraak_ID VARCHAR(255) PRIMARY KEY,
+    Thema VARCHAR(255),
+    Subthema VARCHAR(255),
+    Onderwerp VARCHAR(255),
+    Eindtijd VARCHAR(255),
+    KeyPhrases VARCHAR(255),
+    Account_ID VARCHAR(255)
+);
 
 -- Fact Tables
 DROP TABLE IF EXISTS FactContact;
@@ -120,6 +148,10 @@ CREATE TABLE FactAccount (
     Toegevoegde_waarde VARCHAR(255),
     FTE VARCHAR(255),
     Gewijzigd_op VARCHAR(255),
+    Opzeg VARCHAR(255),
+    Reden_Aangroei VARCHAR(255),
+    Reden_Verloop VARCHAR(255),
+    Start_Datum VARCHAR(255),
     PRIMARY KEY (Customer_ID, Boekjaar),
     FOREIGN KEY (Customer_ID) REFERENCES DimCustomer(Customer_ID)
 );
