@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.metrics import accuracy_score
 from keras.models import Sequential
 from keras.layers import Dense
@@ -11,10 +11,12 @@ file_path = os.path.join('..', '..', '..', 'DEPII', 'Contact.csv')
 
 data = pd.read_csv(file_path)
 
-# De relevante functies?
-features = data[['crm_Contact_Functietitel', 'crm_Contact_Status', 'crm_Contact_Voka_medewerker']]
+# LabelEncoder gebruiken voor 'crm_Contact_Functietitel' en 'crm_Contact_Status'
+label_encoder = LabelEncoder()
+data['crm_Contact_Functietitel'] = label_encoder.fit_transform(data['crm_Contact_Functietitel'])
+data['crm_Contact_Status'] = label_encoder.fit_transform(data['crm_Contact_Status'])
 
-# Aannemen dat 'crm_Contact_Status' een soort indicatie is van inschrijvingswaarschijnlijkheid
+features = data[['crm_Contact_Functietitel', 'crm_Contact_Status', 'crm_Contact_Voka_medewerker']]
 labels = data['crm_Contact_Status']
 
 X_train, X_test, y_train, y_test = train_test_split(features, labels, test_size=0.2, random_state=42)
@@ -39,8 +41,8 @@ accuracy = accuracy_score(y_test, predictions_binary)
 print(f'Nauwkeurigheid testset bedraagt: {accuracy}')
 
 output_data = pd.DataFrame({
-    'Functietitel': X_test['crm_Contact_Functietitel'],
-    'Status': X_test['crm_Contact_Status'],
+    'Functietitel': label_encoder.inverse_transform(X_test['crm_Contact_Functietitel']),
+    'Status': label_encoder.inverse_transform(X_test['crm_Contact_Status']),
     'Voka_medewerker': X_test['crm_Contact_Voka_medewerker'],
     'Voorspelling': predictions_binary
 })
