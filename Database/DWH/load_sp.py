@@ -5,19 +5,19 @@ import os
 
 load_dotenv()
 
-server = os.getenv('SQL_SERVER')
-database = os.getenv('SQL_DATABASE')
-username = os.getenv('SQL_USERNAME')
-password = os.getenv('SQL_PASSWORD')
+SERVER = os.getenv('SERVER')
+DATABASE = os.getenv('DATABASE')
+USER = os.getenv('USER')
+PWD = os.getenv('PASSWORD')
 
-connection_string = f'DRIVER={{SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password};'
+connection_string = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={SERVER};DATABASE={DATABASE};UID={USER};PWD={PWD}'
 connection = pyodbc.connect(connection_string)
 cursor = connection.cursor()
 
 sql_statements = [
     'USE DW;',
-    'TRUNCATE TABLE dim_date;',
-    'EXEC fill_dim_date;',
+    # 'TRUNCATE TABLE dim_date;',
+    # 'EXEC fill_dim_date;',
     'TRUNCATE TABLE dim_customer;',
     'EXEC fill_dim_customer;',
     'TRUNCATE TABLE dim_contact;',

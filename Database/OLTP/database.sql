@@ -257,7 +257,7 @@ CREATE TABLE CDI_Sent_Email_Clicks (
 
 -- Table: Functie
 CREATE TABLE Functie(
-    Functie_ID VARCHAR(255) PRIMARY KEY
+    Functie_ID VARCHAR(255) PRIMARY KEY,
     Functie_Naam VARCHAR(255),
 );
 

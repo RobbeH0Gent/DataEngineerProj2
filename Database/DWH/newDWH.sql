@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS DW;
-CREATE DATABASE DW;
-USE DW;
+-- DROP DATABASE IF EXISTS DW;
+-- CREATE DATABASE DW;
+-- USE DW;
 
 
 -- Dimension Tables
@@ -61,20 +61,20 @@ CREATE TABLE DimCustomer (
 -- I merged the tables: Contactfiche and Functie Table as DimContact
 DROP TABLE IF EXISTS DimContact;
 CREATE TABLE DimContact (
-    Contact_ID VARCHAR(255) PRIMARY KEY,
+    Contact_ID VARCHAR(255)PRIMARY KEY,
     Account_ID VARCHAR(255),
     Functie_title VARCHAR(255),
     Status VARCHAR(255),
     Voka_medewerker INT,
     Persoon_ID VARCHAR(255),
     Functie_ID VARCHAR(255),
-    Gebruiker_ID VARCHAR(255) -- We might need to add more fields, if we need them in the epics.
+    Gebruiker_ID VARCHAR(255),
 );
 
 -- I merged the tables: CDI_Mailing and CDI_PageView as DimEmail
 DROP TABLE IF EXISTS DimEmail;
 CREATE TABLE DimEmail (
-    Mailing_ID VARCHAR(255) PRIMARY KEY,
+    Mailing_ID VARCHAR(255) ,
     Mailing_Name VARCHAR(255),
     Mailing_Sent_On VARCHAR(255),
     Mailing_Subject VARCHAR(255),
@@ -84,19 +84,19 @@ CREATE TABLE DimEmail (
     Duration VARCHAR(255),
     Operating_System VARCHAR(50),
     Referrer_Type VARCHAR(255),
-    PageView_Time DATETIME,
+    PageView_Time VARCHAR(255),--DATETIME,
     Title VARCHAR(255),
     Type VARCHAR(255),
-    Url VARCHAR(255),
-    Viewed_On DATE,
-    Visit DATE,
+    Viewed_On VARCHAR(255),-- DATE,
+    Visit VARCHAR(255),-- DATE,
     Visitor_key VARCHAR(255),
     Web_Content VARCHAR(255),
-    Made_On DATE,
+    Made_On VARCHAR(255),-- DATE,
     Edited_By VARCHAR(255),
-    Edited_On DATE,
+    Edited_On VARCHAR(255),-- DATE,
     Status VARCHAR(255),
-    Status_Reason VARCHAR(255)
+    Status_Reason VARCHAR(255),
+    PRIMARY KEY ( Mailing_ID)
 );
 
 -- Campagne + inschrijving

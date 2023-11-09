@@ -31,7 +31,7 @@ BEGIN
     (Campagne_ID, Campagne_Nr, Einddatum, Naam, Naam_in_email, Reden_van_status, Startdatum, 
     Status_Camp, Type_campagne, URL_voka_be, Soort_Campagne, Status, Contactfiche_ID, Datum, 
     Inschrijving_ID, Facturatie_bedrag)
-    SELECT rc.Campagne_ID, rc.Campagne_Nr, rc.Naam, rc.Naam_in_email, rc.Reden_van_status, rc.Startdatum,
+    SELECT rc.Campagne_ID, rc.Campagne_Nr,rc.Einddatum, rc.Naam, rc.Naam_in_email, rc.Reden_van_status, rc.Startdatum,
     rc.Status_Camp, rc.Type_campagne, rc.URL_voka_be, rc.Soort_Campagne, ri.[Status], ri.Contactfiche_ID,
     ri.Datum, ri.Inschrijving_ID, ri.Facturatie_bedrag
     FROM DEP2.dbo.Campagne rc

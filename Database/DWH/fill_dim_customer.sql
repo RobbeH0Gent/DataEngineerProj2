@@ -6,6 +6,7 @@ AS
 BEGIN
     UPDATE DW.dbo.DimCustomer
      SET 
+        Customer_ID = ra.Account_ID,
         Geografische_regio = ra.Adres_Geografische_regio,
         Geografische_subregio = ra.Adres_Geografische_subregio,
         Plaats = ra.Plaats,
@@ -26,24 +27,20 @@ BEGIN
         Marketing_Communicatie = rp.Marketing_Communicatie
     FROM DW.dbo.DimCustomer dwh
     LEFT JOIN DEP2.dbo.Account ra ON dwh.Customer_ID = ra.Account_ID
-    LEFT JOIN DEP2.dbo.Persoon rp ON dwh.Persoon_ID = rp.Persoon_ID;
-    -- WHERE CLAUSE
+    LEFT JOIN DEP2.dbo.Persoon rp ON dwh.Persoon_ID = rp.Persoon_ID
+    WHERE ra.Account_ID IS NOT NULL;
 
     INSERT INTO DW.dbo.DimCustomer
-    (Customer_ID, Geografische_regio, Geografische_subregio, Plaats, Postcode, Industriezone_Naam_, Is_Voka_entiteit,
+    (Customer_ID, Geografische_regio, Geografische_subregio, Plaats, Postcode, Provincie, Industriezone_Naam_, Is_Voka_entiteit,
     Ondernemingsaard, Ondernemingstype, Oprichtingsdatum, Primaire_activiteit, Reden_van_status, Status, Voka_Nr_,
-    Adres_Land)
-    SELECT ra.Account_ID, ra.Adres_Geografische_regio, ra.Adres_Geografische_subregio, ra.Plaats, ra.Postcode, ra.Provincie, ra.Industriewone_Naam_,
+    Adres_Land, Persoon_ID, Persoonnr, Status_Persoon, Marketing_Communicatie)
+    SELECT ra.Account_ID, ra.Adres_Geografische_regio, ra.Adres_Geografische_subregio, ra.Plaats, ra.Postcode, ra.Provincie, ra.Industriezone_Naam_,
     ra.Is_Voka_entiteit, ra.Ondernemingsaard, ra.Ondernemingstype, ra.Oprichtingsdatum, ra.Primaire_activiteit, ra.Reden_van_status, 
-    ra.Status, ra.Voka_Nr_, ra.Adres_Land
-    FROM DEP2.dbo.Account ra;
-
-
-    INSERT INTO DW.dbo.DimCustomer
-    (Persoon_ID, Persoonnr, Status_Persoon, Marketing_Communicatie)
-    SELECT rp.Persoon_ID, rp.Persoonnr, rp.Reden_Status, rp.Marketing_Communicatie
-    FROM DEP2.dbo.Persoon rp;
-
+    ra.Status, ra.Voka_Nr_, ra.Adres_Land, rp.Persoon_ID, rp.Persoonnr, rp.Reden_Status, rp.Marketing_Communicatie
+    FROM DEP2.dbo.Account ra 
+    JOIN DEP2.dbo.Contactfiche rc ON ra.Account_ID = rc.Account_ID
+    JOIN DEP2.dbo.Persoon rp ON rc.Persoon_ID = rp.Persoon_ID
+    WHERE ra.Account_ID IS NOT NULL;
 END;
 
 
