@@ -7,17 +7,20 @@ from keras.models import Sequential
 from keras.layers import Dense
 
 # Dit is mijn lokaal pad!!!! de juiste CSV ZIT NOG NIET IN ONZE GITHUB
-file_path = os.path.join('..', '..', '..', 'DEPII', 'Contact.csv')
+file_path_contact = os.path.join('..', '..', '..', 'DEPII', 'Contact.csv')
+file_path_campagne = os.path.join('..', '..', '..', 'DEPII', 'Campagne.csv')
 
-data = pd.read_csv(file_path)
+data_contact = pd.read_csv(file_path_contact)
+data_campagne = pd.read_csv(file_path_campagne)
 
-# LabelEncoder gebruiken voor 'crm_Contact_Functietitel' en 'crm_Contact_Status'
+# Use LE for 'crm_Contact_Functietitel' en 'crm_Contact_Status' -> anders foutmelding
 label_encoder = LabelEncoder()
-data['crm_Contact_Functietitel'] = label_encoder.fit_transform(data['crm_Contact_Functietitel'])
-data['crm_Contact_Status'] = label_encoder.fit_transform(data['crm_Contact_Status'])
+data_contact['crm_Contact_Functietitel'] = label_encoder.fit_transform(data_contact['crm_Contact_Functietitel'])
+data_contact['crm_Contact_Status'] = label_encoder.fit_transform(data_contact['crm_Contact_Status'])
 
-features = data[['crm_Contact_Functietitel', 'crm_Contact_Status', 'crm_Contact_Voka_medewerker']]
-labels = data['crm_Contact_Status']
+features = data_contact[['crm_Contact_Functietitel', 'crm_Contact_Status', 'crm_Contact_Voka_medewerker']]
+# This is still wrong
+labels = data_campagne['crm_Campagne_Campagne']
 
 X_train, X_test, y_train, y_test = train_test_split(features, labels, test_size=0.2, random_state=42)
 
@@ -47,5 +50,4 @@ output_data = pd.DataFrame({
     'Voorspelling': predictions_binary
 })
 
-# Het nieuwe DataFrame naar een nieuw CSV-bestand schrijven
 output_data.to_csv('output_predictions.csv', index=False)
