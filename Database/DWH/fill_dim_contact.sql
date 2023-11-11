@@ -12,17 +12,27 @@ BEGIN
         Status = rc.Status,
         Voka_medewerker = rc.Voka_medewerker,
         Persoon_ID = rc.Persoon_ID,
-        Functie_ID = rf.Functie_ID
+        Functie_ID = rf.Functie_ID,
+        Gebruiker_ID = ri.Gebruiker_ID,
+        Inschrijving_status = ri.Status,
+        Bron = ri.Bron,
+        Datum = ri.Datum,
+        Inschrijving_ID = ri.Inschrijving_ID,
+        Facturatie_bedrag = ri.Facturatie_bedrag,
     FROM DW.dbo.DimContact dwh
-    LEFT JOIN DEP2.dbo.Contactfiche rc on dwh.Contact_ID = rc.Contactfiche_ID
-    -- LEFT JOIN DEP2.dbo.Gebruiker rg ON dwh.Gebruiker_ID = rg.Gebruiker_ID
-    LEFT JOIN DEP2.dbo.Functie rf on dwh.Functie_ID = rf.Functie_ID;
-    -- WHERE CLAUSE
+    LEFT JOIN DEP2.dbo.Contactfiche rc ON dwh.Contact_ID = rc.Contactfiche_ID
+    LEFT JOIN DEP2.dbo.Functie rf ON dwh.Functie_ID = rf.Functie_ID
+    LEFT JOIN DEP2.dbo.Inschrijving ri ON dwh.Inschrijving_ID = ri.Inschrijving_ID;
+
 
     INSERT INTO DW.dbo.DimContact
-    (Contact_ID, Account_ID, Functie_title, Status, Voka_medewerker, Persoon_ID, Functie_ID)
-    SELECT DISTINCT rc.Contactfiche_ID, rc.Account_ID, rc.Functie_title, rc.Status, rc.Voka_medewerker,  rc.Persoon_ID,  rf.Functie_ID
-    FROM DEP2.dbo.Contactfiche rc JOIN DEP2.dbo.Functie rf on rc.Functie_title = rf.Functie_Naam;
+    (Contact_ID, Account_ID, Functie_title, Status, Voka_medewerker, Persoon_ID, Functie_ID,
+    Gebruiker_ID, Inschrijving_status, Bron, Datum, Inschrijving_ID, Facturatie_bedrag)
+    SELECT DISTINCT rc.Contactfiche_ID, rc.Account_ID, rc.Functie_title, rc.Status, rc.Voka_medewerker,  rc.Persoon_ID,  rf.Functie_ID,
+    ri.Gebruiker_ID, ri.Inschrijving_status, ri.Bron, ri.Datum, ri.Inschrijving_ID, ri.Facturatie_bedrag
+    FROM DEP2.dbo.Contactfiche rc 
+    JOIN DEP2.dbo.Functie rf ON rc.Functie_title = rf.Functie_Naam
+    JOIN DEP2.dbo.Inschrijving ri ON rc.Contactfiche_ID = ri.Contactfiche_ID;
 
 END;
 

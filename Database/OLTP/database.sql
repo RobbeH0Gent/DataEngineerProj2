@@ -1,5 +1,5 @@
--- CREATE DATABASE DEP2;
--- USE DEP2;
+CREATE DATABASE DEP2;
+USE DEP2;
 
 -- Account Table
 CREATE TABLE Account (
@@ -10,7 +10,7 @@ CREATE TABLE Account (
     Postcode VARCHAR(100),
     Provincie VARCHAR(255),
     Industriezone_Naam_ VARCHAR(255),
-    Is_Voka_entiteit VARCHAR(10), -- BOOLEAN
+    Is_Voka_entiteit VARCHAR(10),
     Ondernemingsaard VARCHAR(255),
     Ondernemingstype VARCHAR(255),
     Oprichtingsdatum VARCHAR(255),
@@ -25,9 +25,8 @@ CREATE TABLE Account (
 CREATE TABLE Persoon (
     Persoon_ID VARCHAR(255) PRIMARY KEY,
     Persoonnr INTEGER,
-    Status_Persoon VARCHAR(255), -- Actief/Inactief
- -- VEEL OPTIES -> best anders aanpakken?
-    Marketing_Communicatie VARCHAR(255) -- Strikt/Flexibel
+    Status_Persoon VARCHAR(255),
+    Marketing_Communicatie VARCHAR(255)Contact
 );
 
 -- Table: Contact
@@ -37,7 +36,7 @@ CREATE TABLE Contactfiche (
     Account_ID VARCHAR(255), -- FK
     Functie_title VARCHAR(255),
     Status VARCHAR(255),
-    Voka_medewerker INTEGER, -- BOOLEAN
+    Voka_medewerker INTEGER,
     FOREIGN KEY (Persoon_ID) REFERENCES Persoon(Persoon_ID),
     FOREIGN KEY (Account_ID) REFERENCES Account(Account_ID)
 );
@@ -51,7 +50,7 @@ CREATE TABLE Activiteitscode (
 
 -- Account ActiviteitsCode Table
 CREATE TABLE Account_ActiviteitsCode (
-    Activiteits_Code VARCHAR(255) , -- PRIMARY KEY
+    Activiteits_Code VARCHAR(255) PRIMARY KEY,
     Activiteitscode_ID VARCHAR(255),
     inf_account_inf_activiteitscodeId VARCHAR(255),
     FOREIGN KEY (Activiteits_Code) REFERENCES Account(Account_ID),
@@ -67,7 +66,7 @@ CREATE TABLE Account_Financiele_Data (
     Toegevoegde_waarde VARCHAR(255),
     FTE VARCHAR(255),
     Gewijzigd_op VARCHAR(255),
-    PRIMARY KEY (Account_ID, Boekjaar), -- Composite key
+    PRIMARY KEY (Account_ID, Boekjaar),
     FOREIGN KEY (Account_ID) REFERENCES Account(Account_ID)
 );
 
@@ -158,16 +157,13 @@ CREATE TABLE CDI_Mailing (
 -- Table: cdi pageviews
 CREATE TABLE CDI_PageView (
     PageView_ID VARCHAR(500) PRIMARY KEY,
-    -- Anonymous BOOLEAN,
     Browser VARCHAR(50),
     Campagne_ID VARCHAR(255),
     Contact_ID VARCHAR(255),
     Duration VARCHAR(255),
     Operating_System VARCHAR(50),
     Referrer_Type VARCHAR(255),
-    -- Not sure of this one
     PageView_Time DateTime,
-    --
     Title VARCHAR(255),
     Type VARCHAR(255),
     Url VARCHAR(255),
@@ -181,9 +177,7 @@ CREATE TABLE CDI_PageView (
     Status VARCHAR(255),
     Status_Reason VARCHAR(255),
     FOREIGN KEY (Campagne_ID) REFERENCES Campagne(Campagne_ID),
-    FOREIGN KEY (Contact_ID) REFERENCES Contactfiche(Contactfiche_ID),
-    -- FOREIGN KEY (Web_Content) REFERENCES ... staat niet aangeduid in het ERD
-    -- FOREIGN KEY ()
+    FOREIGN KEY (Contact_ID) REFERENCES Contactfiche(Contactfiche_ID)
 );
 
 -- Table: cdi web content
@@ -191,14 +185,14 @@ CREATE TABLE CDI_Web_Content (
     Campaign_ID VARCHAR(255),
     Campaign_Name VARCHAR(255),
     Naam VARCHAR(255),
-    WebContent_ID VARCHAR(255), -- PRIMARY KEY,
+    WebContent_ID VARCHAR(255) PRIMARY KEY,
     Made_By_Name VARCHAR(255), 
     Created_On VARCHAR(255),
     Edited_By_Name VARCHAR(255),
     Modified_On VARCHAR(255),
     Owner_ID VARCHAR(255),
     Owner_Name VARCHAR(255),
-    Owning_Business_Unit VARCHAR(255)  -- BOOLEAN
+    Owning_Business_Unit VARCHAR(255) 
 );
 
 -- Table: cdi visits
@@ -240,9 +234,7 @@ CREATE TABLE CDI_Visits (
     
     FOREIGN KEY (Campagne_ID) REFERENCES Campagne(Campagne_ID),
     FOREIGN KEY (Contactfiche_ID) REFERENCES Contactfiche(Contactfiche_ID),
-    FOREIGN KEY (Email_send) REFERENCES CDI_Mailing(Mailing_ID),
-    -- FOREIGN KEY (Entry_page) REFERENCES -- NIET VERMELD ERD,
-    -- FOREIGN KEY (Exit_page) REFERENCES NIET VERMELD ERD,
+    FOREIGN KEY (Email_send) REFERENCES CDI_Mailing(Mailing_ID)
 );
 
 -- Table: cdi sent email clicks
@@ -273,7 +265,7 @@ CREATE TABLE ContactFunctie (
 -- Table: Gebruiker
 CREATE TABLE Gebruiker (
     Gebruiker_ID VARCHAR(255) PRIMARY KEY,
-    Business_unit_naam VARCHAR(255), -- staat niet in ERD maar hebben wel data
+    Business_unit_naam VARCHAR(255)
 );
 
 
@@ -304,7 +296,7 @@ CREATE TABLE Inschrijving (
 
 -- Table: Lidmaatschap
 CREATE TABLE Lidmaatschap (
-    Lidmaatschap_ID VARCHAR(255), --PRIMARY KEY NEEDS TO NULLABLE
+    Lidmaatschap_ID VARCHAR(255) PRIMARY KEY,
     Onderneming_ID VARCHAR(255),
     Opzeg VARCHAR(255),
     Reden_Aangroei VARCHAR(255),
@@ -341,11 +333,5 @@ CREATE TABLE SessieInschrijving (
     
 );
 
-
--- Table: Teams NIET VERMELD IN ERD
--- CREATE TABLE Teams (
---     Teams_ID VARCHAR(5) PRIMARY KEY,
---     Activiteit_naam VARCHAR(255)
--- );
 
 
