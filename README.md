@@ -42,7 +42,7 @@ Before you begin, ensure you have the following prerequisites in place:
 ### Installation
 1. Clone the project repository:
    ```shell
-   git clone https://github.com/EliJansegers/DEP2.git
+   git clone git@github.com:Flor-DeBruyne/DataEngineerProj2.git
 
 ### Usage
 [Provide instructions on how to use the project. Include any configuration settings or environment setup required.]
@@ -59,8 +59,6 @@ Before you begin, ensure you have the following prerequisites in place:
 ## Contact
 For any questions or inquiries related to DEP2, please reach out to the project team members:
 
-- Quintin Mintiens: [quintin.mintiens@student.hogent.be](mailto:quintin.mintiens@student.hogent.be)
-- Eli Jansegers: [eli.jansegers@student.hogent.be](mailto:eli.jansegers@student.hogent.be)
-- Flor Debruyne: [flor.debruyne@student.hogent.be](mailto:flor.debruyne@student.hogent.be)
 - Robbe Schoukens: [robbe.schoukens@student.hogent.be](mailto:robbe.schoukens@student.hogent.be)
 - Daniel Boustani: [daniel.boustani@student.hogent.be](mailto:daniel.boustani@student.hogent.be)
+- Flor De Bruyne: [flor.debruyne@student.hogent.be](mailto:flor.debruyne@student.hogent.be)
