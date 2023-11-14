@@ -9,16 +9,15 @@ BEGIN
         Contact_ID = rc.Contactfiche_ID,
         Account_ID = rc.Account_ID,
         Functie_title = rc.Functie_title,
-        Status = rc.Status,
+        Contact_status = rc.Status,
         Voka_medewerker = rc.Voka_medewerker,
         Persoon_ID = rc.Persoon_ID,
         Functie_ID = rf.Functie_ID,
-        Gebruiker_ID = ri.Gebruiker_ID,
         Inschrijving_status = ri.Status,
         Bron = ri.Bron,
         Datum = ri.Datum,
         Inschrijving_ID = ri.Inschrijving_ID,
-        Facturatie_bedrag = ri.Facturatie_bedrag,
+        Facturatie_bedrag = ri.Facturatie_bedrag
     FROM DW.dbo.DimContact dwh
     LEFT JOIN DEP2.dbo.Contactfiche rc ON dwh.Contact_ID = rc.Contactfiche_ID
     LEFT JOIN DEP2.dbo.Functie rf ON dwh.Functie_ID = rf.Functie_ID
@@ -26,10 +25,10 @@ BEGIN
 
 
     INSERT INTO DW.dbo.DimContact
-    (Contact_ID, Account_ID, Functie_title, Status, Voka_medewerker, Persoon_ID, Functie_ID,
-    Gebruiker_ID, Inschrijving_status, Bron, Datum, Inschrijving_ID, Facturatie_bedrag)
+    (Contact_ID, Account_ID, Functie_title, Contact_status, Voka_medewerker, Persoon_ID, Functie_ID,
+    Inschrijving_status, Bron, Datum, Inschrijving_ID, Facturatie_bedrag)
     SELECT DISTINCT rc.Contactfiche_ID, rc.Account_ID, rc.Functie_title, rc.Status, rc.Voka_medewerker,  rc.Persoon_ID,  rf.Functie_ID,
-    ri.Gebruiker_ID, ri.Inschrijving_status, ri.Bron, ri.Datum, ri.Inschrijving_ID, ri.Facturatie_bedrag
+    ri.Status, ri.Bron, ri.Datum, ri.Inschrijving_ID, ri.Facturatie_bedrag
     FROM DEP2.dbo.Contactfiche rc 
     JOIN DEP2.dbo.Functie rf ON rc.Functie_title = rf.Functie_Naam
     JOIN DEP2.dbo.Inschrijving ri ON rc.Contactfiche_ID = ri.Contactfiche_ID;

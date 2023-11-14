@@ -2,7 +2,6 @@
 -- CREATE DATABASE DW;
 -- USE DW;
 
-
 -- Dimension Tables
 DROP TABLE IF EXISTS DimDate;
 CREATE TABLE DimDate (
@@ -36,12 +35,11 @@ CREATE TABLE DimDate (
 -- Tables account, persoon, lidmaatschap
 DROP TABLE IF EXISTS DimCustomer;
 CREATE TABLE DimCustomer (
-    Customer_ID VARCHAR(255) PRIMARY KEY,
+    Customer_ID VARCHAR(255),
     Geografische_regio VARCHAR(255),
     Geografische_subregio VARCHAR(255),
     Plaats VARCHAR(255),
     Postcode VARCHAR(100),
-    Provincie VARCHAR(255),
     Industriezone_Naam_ VARCHAR(255),
     Is_Voka_entiteit VARCHAR(10),
     Ondernemingsaard VARCHAR(255),
@@ -61,33 +59,31 @@ CREATE TABLE DimCustomer (
     Reden_Aangroei VARCHAR(255),
     Reden_Verloop VARCHAR(255),
     Start_Datum VARCHAR(255),
-
+    PRIMARY KEY(Customer_ID, Persoon_ID)
 );
 
 -- Tables Functie, Contactfiche, inschrijving
 DROP TABLE IF EXISTS DimContact;
 CREATE TABLE DimContact (
-    Contact_ID VARCHAR(255)PRIMARY KEY,
+    Contact_ID VARCHAR(255),
     Account_ID VARCHAR(255),
     Functie_title VARCHAR(255),
     Contact_status VARCHAR(255),
     Voka_medewerker INT,
     Persoon_ID VARCHAR(255),
     Functie_ID VARCHAR(255),
-    Gebruiker_ID VARCHAR(255),
     Inschrijving_status VARCHAR(255),
     Bron VARCHAR(255),
-    Datum DateTime,
+    Datum VARCHAR(255),
     Inschrijving_ID VARCHAR(255),
-    Facturatie_bedrag INTEGER,
-
-
+    Facturatie_bedrag VARCHAR(255),
+    PRIMARY KEY(Contact_ID, Inschrijving_ID)
 );
 
 -- Tables CDI_email, CDI_pageviews, CDI_visits
 DROP TABLE IF EXISTS DimEmail;
 CREATE TABLE DimEmail (
-    Mailing_ID VARCHAR(255)  PRIMARY KEY,
+    Mailing_ID VARCHAR(255)  ,
     Mailing_Name VARCHAR(255),
     Mailing_Sent_On VARCHAR(255),
     Mailing_Subject VARCHAR(255),
@@ -101,7 +97,6 @@ CREATE TABLE DimEmail (
     Title VARCHAR(255),
     Type VARCHAR(255),
     Viewed_On VARCHAR(255),-- DATE,
-    Visit VARCHAR(255),-- DATE,
     Visitor_key VARCHAR(255),
     Web_Content VARCHAR(255),
     Made_On VARCHAR(255),-- DATE,
@@ -114,13 +109,14 @@ CREATE TABLE DimEmail (
     IP_Land VARCHAR(255),
     IP_Adress VARCHAR(255),
     IP_Organization VARCHAR(255),
-    Visit_ID VARCHAR(255)
+    Visit_ID VARCHAR(255),
+    PRIMARY KEY (Mailing_ID, Visit_ID)
 );
 
 
 DROP TABLE IF EXISTS DimFinancieel;
 CREATE TABLE DimFinancieel(
-    Financieel_ID VARCHAR(255),
+    Financieel_ID INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
     Boekjaar INT,
     Aantal_maanden INT,
     Toegevoegde_waarde VARCHAR(255),
@@ -131,9 +127,14 @@ CREATE TABLE DimFinancieel(
 -- Fact Tables
 DROP TABLE IF EXISTS FactCampagne;
 CREATE TABLE FactCampagne (
+    Fact_ID INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
     Customer_ID VARCHAR(255),
+    Persoon_ID VARCHAR(255),
     Contact_ID VARCHAR(255),
-    Campagne_ID VARCHAR(255) PRIMARY KEY,
+    Inschrijving_ID VARCHAR(255),
+    Campagne_ID VARCHAR(255),
+    Mailing_ID VARCHAR(255),
+    Visit_ID VARCHAR(255),
     Campagne_Nr VARCHAR(255),
     Einddatum VARCHAR(255),
     Naam VARCHAR(255),
@@ -142,7 +143,8 @@ CREATE TABLE FactCampagne (
     Startdatum VARCHAR(255),
     Status_Camp VARCHAR(255),
     Type_campagne VARCHAR(255),
-    Soort_Campagne VARCHAR(255)
-    FOREIGN KEY (Customer_ID) REFERENCES DimCustomer(Customer_ID),
-    FOREIGN KEY (Contact_ID) REFERENCES DimContact(Contact_ID)    
+    Soort_Campagne VARCHAR(255),
+    FOREIGN KEY (Mailing_ID, Visit_ID) REFERENCES DimEmail(Mailing_ID, Visit_ID),
+    FOREIGN KEY (Customer_ID, Persoon_ID) REFERENCES DimCustomer(Customer_ID, Persoon_ID),
+    FOREIGN KEY (Contact_ID, Inschrijving_ID) REFERENCES DimContact(Contact_ID, Inschrijving_ID)    
 );

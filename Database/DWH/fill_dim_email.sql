@@ -20,7 +20,6 @@ BEGIN
         Title = rp.Title,
         Type = rp.Type,
         Viewed_On = rp.Viewed_On,
-        Visit = rp.Visit,
         Visitor_key = rp.Visitor_key,
         Web_Content = rp.Web_Content,
         Made_On = rp.Made_On,
@@ -42,10 +41,10 @@ BEGIN
 
     INSERT INTO DW.dbo.DimEmail
     (Mailing_ID, Mailing_Name, Mailing_Sent_On, Mailing_Subject, Browser, Campagne_ID, Contact_ID, Duration, Operating_System, Referrer_Type,
-    PageView_Time, Title, Type, Viewed_On, Visit, Visitor_key, Web_Content, Made_On, Edited_By, Edited_On, Status, Status_Reason,
+    PageView_Time, Title, Type, Viewed_On, Visitor_key, Web_Content, Made_On, Edited_By, Edited_On, Status, Status_Reason,
     IP_Stad, IP_Company, IP_Land, IP_Adress, IP_Organization, Visit_ID)
-    SELECT DISTINCT rm.Mailing_ID, rm.Mailing_Name, rm.Mailing_Sent_On, rm.Mailing_Subject, rp.Browser, rp.Campagne_ID, rp.Contact_ID, rp.Duration, rp.Operating_System, rp.Referrer_Type,
-    rp.PageView_Time, rp.Title, rp.Type, rp.Viewed_On, rp.Visit, rp.Visitor_key, rp.Web_Content, rp.Made_On, rp.Edited_By, rp.Edited_On, rp.Status, rp.Status_Reason,
+    SELECT rm.Mailing_ID, rm.Mailing_Name, rm.Mailing_Sent_On, rm.Mailing_Subject, rp.Browser, rp.Campagne_ID, rp.Contact_ID, rp.Duration, rp.Operating_System, rp.Referrer_Type,
+    rp.PageView_Time, rp.Title, rp.Type, rp.Viewed_On, rp.Visitor_key, rp.Web_Content, rp.Made_On, rp.Edited_By, rp.Edited_On, rp.Status, rp.Status_Reason,
     rv.IP_Stad, rv.IP_Company, rv.IP_Land, rv.IP_Adress, rv.IP_Organization, rv.Visit_ID
     FROM DEP2.dbo.CDI_Mailing rm
     JOIN DEP2.dbo.CDI_Visits rv ON rm.Mailing_ID = rv.Email_Send

@@ -26,7 +26,7 @@ CREATE TABLE Persoon (
     Persoon_ID VARCHAR(255) PRIMARY KEY,
     Persoonnr INTEGER,
     Status_Persoon VARCHAR(255),
-    Marketing_Communicatie VARCHAR(255)Contact
+    Marketing_Communicatie VARCHAR(255)
 );
 
 -- Table: Contact
@@ -220,7 +220,7 @@ CREATE TABLE CDI_Visits (
     IP_Longitude VARCHAR(255),
     Operating_System VARCHAR(255),
     IP_Postcode VARCHAR(255),
-    Referrer VARCHAR(255),
+    Referrer VARCHAR(500),
     Referring_Host VARCHAR(255),
     Score VARCHAR(255),
     Referrer_Type VARCHAR(255),
@@ -231,7 +231,6 @@ CREATE TABLE CDI_Visits (
     Visit_ID VARCHAR(255) PRIMARY KEY,
     Aangemaakt_op VARCHAR(255),
     Gewijzigd_op VARCHAR(255),
-    
     FOREIGN KEY (Campagne_ID) REFERENCES Campagne(Campagne_ID),
     FOREIGN KEY (Contactfiche_ID) REFERENCES Contactfiche(Contactfiche_ID),
     FOREIGN KEY (Email_send) REFERENCES CDI_Mailing(Mailing_ID)
@@ -308,7 +307,7 @@ CREATE TABLE Lidmaatschap (
 
 -- Table: Sessie
 CREATE TABLE Sessie (
-    Sessie_ID VARCHAR(255), -- PRIMARY KEY NEEDS TO BE NULLABLE
+    Sessie_ID VARCHAR(255) PRIMARY KEY,
     Campagne_ID VARCHAR(255),
     Activiteitstype VARCHAR(255),
     Campagne_ID VARCHAR(255), 
