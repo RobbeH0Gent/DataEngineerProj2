@@ -18,9 +18,6 @@ EXEC fill_dim_contact;
 DELETE FROM DimEmail;
 EXEC fill_dim_email;
 
-DELETE FROM DimFinancieel;
-EXEC fill_dim_financieel;
-
 
 -- ADD TO fact_account
 EXEC fill_fact_campagne;

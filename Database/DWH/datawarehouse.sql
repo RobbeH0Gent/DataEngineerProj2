@@ -80,54 +80,29 @@ CREATE TABLE DimContact (
     PRIMARY KEY(Contact_ID, Inschrijving_ID)
 );
 
--- Tables CDI_email, CDI_pageviews, CDI_visits
+-- Tables CDI_email, CDI_visits
 DROP TABLE IF EXISTS DimEmail;
 CREATE TABLE DimEmail (
     Mailing_ID VARCHAR(255)  ,
     Mailing_Name VARCHAR(255),
     Mailing_Sent_On VARCHAR(255),
     Mailing_Subject VARCHAR(255),
-    Browser VARCHAR(50),
-    Campagne_ID VARCHAR(255),
-    Contact_ID VARCHAR(255),
-    Duration VARCHAR(255),
-    Operating_System VARCHAR(50),
-    Referrer_Type VARCHAR(255),
-    PageView_Time VARCHAR(255),--DATETIME,
-    Title VARCHAR(255),
-    Type VARCHAR(255),
-    Viewed_On VARCHAR(255),-- DATE,
-    Visitor_key VARCHAR(255),
-    Web_Content VARCHAR(255),
-    Made_On VARCHAR(255),-- DATE,
-    Edited_By VARCHAR(255),
-    Edited_On VARCHAR(255),-- DATE,
-    Status VARCHAR(255),
-    Status_Reason VARCHAR(255),
     IP_Stad VARCHAR(255),
     IP_Company VARCHAR(255),
     IP_Land VARCHAR(255),
     IP_Adress VARCHAR(255),
     IP_Organization VARCHAR(255),
     Visit_ID VARCHAR(255),
+    Campagne_ID VARCHAR(255),
+    Contact_ID VARCHAR(255),
     PRIMARY KEY (Mailing_ID, Visit_ID)
 );
 
 
-DROP TABLE IF EXISTS DimFinancieel;
-CREATE TABLE DimFinancieel(
-    Financieel_ID INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-    Boekjaar INT,
-    Aantal_maanden INT,
-    Toegevoegde_waarde VARCHAR(255),
-    FTE VARCHAR(255),
-    Gewijzigd_op VARCHAR(255)
-);
-
 -- Fact Tables
 DROP TABLE IF EXISTS FactCampagne;
 CREATE TABLE FactCampagne (
-    Fact_ID INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+    Fact_ID INT NOT NULL IDENTITY(1,1) ,
     Customer_ID VARCHAR(255),
     Persoon_ID VARCHAR(255),
     Contact_ID VARCHAR(255),
@@ -146,5 +121,6 @@ CREATE TABLE FactCampagne (
     Soort_Campagne VARCHAR(255),
     FOREIGN KEY (Mailing_ID, Visit_ID) REFERENCES DimEmail(Mailing_ID, Visit_ID),
     FOREIGN KEY (Customer_ID, Persoon_ID) REFERENCES DimCustomer(Customer_ID, Persoon_ID),
-    FOREIGN KEY (Contact_ID, Inschrijving_ID) REFERENCES DimContact(Contact_ID, Inschrijving_ID)    
+    FOREIGN KEY (Contact_ID, Inschrijving_ID) REFERENCES DimContact(Contact_ID, Inschrijving_ID),
+    PRIMARY KEY(Fact_ID, Campagne_ID) 
 );
